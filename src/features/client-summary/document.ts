@@ -1,6 +1,10 @@
 import { z } from "zod";
 
-import type { CurrencyCode, QuoteResultV1 } from "@/domain/quote/types";
+import type {
+  ChangeOrderCode,
+  CurrencyCode,
+  QuoteResultV1,
+} from "@/domain/quote/types";
 import {
   milestonesPublishable,
   type QuoteOverridesV1,
@@ -97,6 +101,26 @@ const exclusionLabels: Record<string, string> = {
   "catalogue-data-entry": "Catalogue data entry",
   "ongoing-maintenance": "Ongoing maintenance",
 };
+const changeOrderLabels: Record<ChangeOrderCode, string> = {
+  additionalPage: "Additional page",
+  additionalRevisionRound: "Additional revision round",
+  standardIntegration: "Standard integration",
+  thirdPartyApi: "Third-party API",
+  customApi: "Custom API",
+  urgentChange: "Urgent change",
+  hourlyOutOfScope: "Hourly out-of-scope work",
+};
+
+export function formatTimeline(timeline: QuoteResultV1["timeline"]): string {
+  const { lowWeeks, expectedWeeks, highWeeks } = timeline;
+  if (lowWeeks === highWeeks)
+    return `${lowWeeks} ${lowWeeks === 1 ? "week" : "weeks"}`;
+  return `${lowWeeks}–${highWeeks} weeks (expected ${expectedWeeks} ${expectedWeeks === 1 ? "week" : "weeks"})`;
+}
+
+function formatSupportDays(days: number): string {
+  return `${days} ${days === 1 ? "day" : "days"} of post-launch support`;
+}
 
 export function scopeLines(result: QuoteResultV1): string[] {
   return result.scope.map(({ code, details }) => {
@@ -109,7 +133,7 @@ export function scopeLines(result: QuoteResultV1): string[] {
     if (code === "content")
       return `Content: ${String(details.mode)}${details.assetSourcing ? ", with asset sourcing" : ""}${details.migration !== "none" ? `; ${details.migration} migration` : ""}`;
     if (code === "delivery")
-      return `${details.testingLevel} testing; ${details.deploymentOwner === "freelancer" ? "freelancer" : "client"} handles deployment; ${details.postLaunchSupportDays} days of post-launch support`;
+      return `${String(details.testingLevel).replace(/^./, (letter) => letter.toUpperCase())} testing; the ${details.deploymentOwner === "freelancer" ? "freelancer" : "client"} handles deployment; ${formatSupportDays(Number(details.postLaunchSupportDays))}`;
     if (code === "maintenance")
       return `${details.tier} maintenance recommendation`;
     if (code.startsWith("feature-"))
@@ -205,9 +229,7 @@ export function createClientQuoteDocument(
     },
     scope: values.includedScope ?? scopeLines(result),
     exclusions: values.exclusions ?? exclusionLines(result),
-    timeline:
-      values.deliveryStatement ??
-      `${result.timeline.lowWeeks}–${result.timeline.highWeeks} weeks (expected ${result.timeline.expectedWeeks})`,
+    timeline: values.deliveryStatement ?? formatTimeline(result.timeline),
     milestones,
     revisions: {
       includedRounds:
@@ -217,11 +239,11 @@ export function createClientQuoteDocument(
         result.revisions.extraRoundPrice.recommendedMinor,
     },
     changeRequests: result.changeOrders.map((order) => ({
-      label: order.code.replace(/([A-Z])/g, " $1").toLowerCase(),
+      label: changeOrderLabels[order.code] ?? "Additional work",
       priceMinor: order.price.recommendedMinor,
     })),
     maintenance,
-    support: `${result.input.delivery.postLaunchSupportDays} days of post-launch support`,
+    support: formatSupportDays(result.input.delivery.postLaunchSupportDays),
     ...(values.clientNotes ? { clientNotes: values.clientNotes } : {}),
   };
   const parsed = clientQuoteDocumentV1Schema.safeParse(candidate);
