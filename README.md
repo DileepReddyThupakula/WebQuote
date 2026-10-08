@@ -6,7 +6,7 @@ WebQuote is a professional website-project pricing, scope, revision, payment, ma
 
 ## Current status
 
-Phases 1–4 are implemented on `main`. Phase 5 results and commercial terms are complete on the uncommitted `phase-5-results` branch, awaiting owner review. Phase 6 PDF export remains deferred.
+Phases 1–5 are implemented. Phase 6 PDF export remains deferred.
 
 The repository currently provides:
 

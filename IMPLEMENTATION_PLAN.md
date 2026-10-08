@@ -119,9 +119,9 @@ Phase 5 handoff boundary; it does not render commercial results or export a PDF.
 
 ## Phase 5 — Results, scope, overrides, and commercial terms
 
-Status: **Complete on `phase-5-results`; awaiting owner commit review.** Final
-verification and the accepted development-tooling audit exception are recorded
-in `docs/phase-5-evidence.md`. Phase 6 has not begun.
+Status: **Complete — 2026-10-08.** Final verification and the accepted
+development-tooling audit exception are recorded in
+`docs/phase-5-evidence.md`. Phase 6 has not begun.
 
 ### Work
 
