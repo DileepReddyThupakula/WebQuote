@@ -5,7 +5,9 @@ import {
   clientSummaryText,
   createClientQuoteDocument,
   formatMoney,
+  formatTimeline,
   parseMoneyText,
+  scopeLines,
 } from "@/features/client-summary/document";
 import {
   clearPersistedQuote,
@@ -130,6 +132,73 @@ describe("Phase 5 result and client document", () => {
     expect(document).not.toHaveProperty("risk");
     expect(document).not.toHaveProperty("pricingConfig");
     expect(text).not.toContain("Target margin");
+  });
+
+  it.each([
+    { lowWeeks: 2, expectedWeeks: 2, highWeeks: 2, text: "2 weeks" },
+    { lowWeeks: 1, expectedWeeks: 1, highWeeks: 1, text: "1 week" },
+    {
+      lowWeeks: 2,
+      expectedWeeks: 3,
+      highWeeks: 4,
+      text: "2–4 weeks (expected 3 weeks)",
+    },
+  ])("formats the client timeline as $text", ({ text, ...weeks }) => {
+    const quote = { ...typical, timeline: { ...typical.timeline, ...weeks } };
+    expect(formatTimeline(quote.timeline)).toBe(text);
+    const document = createClientQuoteDocument(quote, emptyOverrides(quote))!;
+    expect(document.timeline).toBe(text);
+    expect(clientSummaryText(document)).toContain(`Expected delivery: ${text}`);
+  });
+
+  it("uses explicit professional change-request labels", () => {
+    const document = createClientQuoteDocument(
+      complex,
+      emptyOverrides(complex),
+    )!;
+    expect(document.changeRequests.map((item) => item.label)).toEqual([
+      "Additional page",
+      "Additional revision round",
+      "Standard integration",
+      "Third-party API",
+      "Custom API",
+      "Urgent change",
+      "Hourly out-of-scope work",
+    ]);
+    const text = clientSummaryText(document);
+    expect(text).toContain("Third-party API: from");
+    expect(text).toContain("Custom API: from");
+  });
+
+  it.each([
+    { days: 0, phrase: "0 days of post-launch support" },
+    { days: 1, phrase: "1 day of post-launch support" },
+    { days: 14, phrase: "14 days of post-launch support" },
+  ])("formats delivery scope with $days support days", ({ days, phrase }) => {
+    const quote = {
+      ...typical,
+      input: {
+        ...typical.input,
+        delivery: { ...typical.input.delivery, postLaunchSupportDays: days },
+      },
+      scope: typical.scope.map((item) =>
+        item.code === "delivery"
+          ? {
+              ...item,
+              details: { ...item.details, postLaunchSupportDays: days },
+            }
+          : item,
+      ),
+    };
+    const delivery = scopeLines(quote).find((line) =>
+      line.includes("handles deployment"),
+    );
+    expect(delivery).toBe(
+      `Essential testing; the freelancer handles deployment; ${phrase}`,
+    );
+    const document = createClientQuoteDocument(quote, emptyOverrides(quote))!;
+    expect(document.support).toBe(phrase);
+    expect(clientSummaryText(document)).toContain(`Launch support: ${phrase}`);
   });
 
   it("keeps working-draft context out of client output unless a project label is approved", () => {
