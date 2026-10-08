@@ -1,0 +1,74 @@
+
+> webquote@0.1.0 test:e2e
+> playwright test
+
+[WebServer] (node:51917) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:51936) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] ⚠ Warning: Next.js ignored package-lock.json in /Users/dileepreddythupakula because it would include your home directory (/Users/dileepreddythupakula).
+[WebServer]  To use this directory, set `outputFileTracingRoot` in your Next.js config.
+[WebServer] 
+[WebServer] ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+[WebServer]  We detected multiple lockfiles and selected the directory of /Users/dileepreddythupakula/Documents/package-lock.json as the root directory.
+[WebServer]  To silence this warning, set `outputFileTracingRoot` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+[WebServer]    See https://nextjs.org/docs/app/api-reference/config/next-config-js/output#caveats for more information.
+[WebServer]  Detected additional lockfiles: 
+[WebServer]    * /Users/dileepreddythupakula/Documents/WebQuote-Recovered/package-lock.json
+[WebServer] 
+
+Running 11 tests using 4 workers
+
+(node:51962) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:51961) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:51963) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:51960) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [chromium] › tests/e2e/shell.spec.ts:83:1 › product shell is accessible and navigates to the quote workspace (3.4s)
+  ✓   5 [chromium] › tests/e2e/shell.spec.ts:211:1 › incomplete project input blocks progression with a focused error (3.4s)
+  ✓   1 [chromium] › tests/e2e/shell.spec.ts:152:1 › business quote preserves values while moving backward and forward (8.2s)
+  ✓   4 [chromium] › tests/e2e/shell.spec.ts:178:1 › ecommerce workflow applies visible dependency guidance and API disclosure (8.3s)
+  ✓   3 [chromium] › tests/e2e/shell.spec.ts:121:1 › simple landing-page quote reaches the minimal result page (8.4s)
+  ✓   9 [chromium] › tests/e2e/shell.spec.ts:318:1 › quote workspace remains usable without horizontal overflow at 320px (980ms)
+  ✓  10 [chromium] › tests/e2e/shell.spec.ts:341:1 › quote workspace supports keyboard focus and desktop content (1.0s)
+  ✓  11 [chromium] › tests/e2e/shell.spec.ts:367:1 › unknown routes render the recoverable not-found page (1.2s)
+  ✓   7 [chromium] › tests/e2e/shell.spec.ts:258:3 › builder remains usable through Project, Commercial terms, and Review at 390px (3.8s)
+  ✓   8 [chromium] › tests/e2e/shell.spec.ts:258:3 › builder remains usable through Project, Commercial terms, and Review at 320px (3.7s)
+  ✘   6 [chromium] › tests/e2e/shell.spec.ts:230:1 › active draft survives refresh and reset clears it (10.6s)
+
+
+  1) [chromium] › tests/e2e/shell.spec.ts:230:1 › active draft survives refresh and reset clears it 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: 'Make the starting point clear' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: 'Make the starting point clear' }) with timeout 5000ms
+      - waiting for getByRole('heading', { name: 'Make the starting point clear' })
+
+
+      237 |   await expect(
+      238 |     page.getByRole("heading", { name: "Make the starting point clear" }),
+    > 239 |   ).toBeVisible();
+          |     ^
+      240 |   await page.waitForTimeout(400);
+      241 |   await page.getByRole("link", { name: "Overview" }).click();
+      242 |   await page.getByRole("link", { name: "Build a quote" }).click();
+        at /Users/dileepreddythupakula/Documents/WebQuote-Recovered/tests/e2e/shell.spec.ts:239:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/shell-active-draft-survives-refresh-and-reset-clears-it-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/shell-active-draft-survives-refresh-and-reset-clears-it-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/e2e/shell.spec.ts:230:1 › active draft survives refresh and reset clears it ─
+  10 passed (24.3s)

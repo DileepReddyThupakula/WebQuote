@@ -1,0 +1,110 @@
+
+> webquote@0.1.0 check
+> npm run format:check && npm run lint && npm run typecheck && npm run test:run && npm run test:domain && npm run build
+
+
+> webquote@0.1.0 format:check
+> prettier --check "src/**/*.{ts,tsx,css}" "tests/**/*.{ts,tsx}" "*.{json,js,mjs,ts}"
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> webquote@0.1.0 lint
+> eslint .
+
+
+> webquote@0.1.0 typecheck
+> tsc --noEmit
+
+
+> webquote@0.1.0 test:run
+> vitest run
+
+
+ RUN  v5.0.2 /Users/dileepreddythupakula/Documents/WebQuote-Recovered
+
+
+ Test Files  21 passed (21)
+      Tests  172 passed (172)
+   Start at  16:17:05
+   Duration  3.81s (environment 63%, tests 15%, transform 8%, setup 7%, import 7%, worker 1%)
+
+Environment  jsdom was created 21 times · 13.28s total, 63% of tracked time
+             create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+             learn more: https://vitest.dev/guide/improving-performance#test-environments
+
+
+> webquote@0.1.0 test:domain
+> vitest run tests/unit/domain/quote --coverage
+
+
+ RUN  v5.0.2 /Users/dileepreddythupakula/Documents/WebQuote-Recovered
+      Coverage enabled with v8
+
+
+ Test Files  7 passed (7)
+      Tests  128 passed (128)
+   Start at  16:17:09
+   Duration  1.36s (environment 65%, transform 11%, setup 8%, import 7%, worker 5%, tests 4%)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   99.39 |    97.92 |     100 |   99.58 |                   
+ quote             |   99.51 |    98.49 |     100 |   99.75 |                   
+  arithmetic.ts    |   98.11 |    96.66 |     100 |   98.07 | 103               
+  calculate.ts     |   96.87 |    77.77 |     100 |     100 | 43-159            
+ quote/config      |    98.8 |    95.23 |     100 |   98.78 |                   
+  registry.ts      |     100 |     87.5 |     100 |     100 | 34                
+  schema.ts        |   98.46 |    97.05 |     100 |   98.43 | 342               
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 99.39% ( 495/498 )
+Branches     : 97.92% ( 236/241 )
+Functions    : 100% ( 94/94 )
+Lines        : 99.58% ( 484/486 )
+================================================================================
+
+> webquote@0.1.0 build
+> next build --webpack
+
+▲ Next.js 16.3.6 (webpack)
+⚠ Warning: Next.js ignored package-lock.json in /Users/dileepreddythupakula because it would include your home directory (/Users/dileepreddythupakula).
+ To use this directory, set `outputFileTracingRoot` in your Next.js config.
+
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/dileepreddythupakula/Documents/package-lock.json as the root directory.
+ To silence this warning, set `outputFileTracingRoot` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/output#caveats for more information.
+ Detected additional lockfiles: 
+   * /Users/dileepreddythupakula/Documents/WebQuote-Recovered/package-lock.json
+
+✓ Running next.config.ts took 1609ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 3.4s
+  Running TypeScript ...
+  Finished TypeScript in 1977ms ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/8) ...
+  Generating static pages using 7 workers (2/8) 
+  Generating static pages using 7 workers (4/8) 
+  Generating static pages using 7 workers (6/8) 
+✓ Generating static pages using 7 workers (8/8) in 146ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+├ ○ /quote
+├ ○ /quote/result
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+○  (Static)  prerendered as static content
+

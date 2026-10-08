@@ -1,0 +1,282 @@
+import {
+  parsePricingConfigV1,
+  type PricingConfigV1Input,
+} from "@/domain/quote/config/schema";
+
+const range = (lowHours: number, highHours: number) => ({
+  lowQh: lowHours * 4,
+  highQh: highHours * 4,
+});
+
+const v1Input = {
+  identity: {
+    configId: "webquote-v1-calibration",
+    configVersion: "1.0.0",
+    modelVersion: "webquote-pricing-v1",
+    effectiveAt: "2026-09-26T00:00:00.000Z",
+    inputVersion: "quote-input-v1",
+    resultVersion: "quote-result-v1",
+  },
+  units: { quarterHoursPerHour: 4, basisPointsScale: 10_000 },
+  validation: {
+    pageCount: { min: 1, max: 100 },
+    integrationCount: { min: 0, max: 10 },
+    targetMarginBp: { min: 0, max: 5_000 },
+    weeklyCapacityHours: { min: 5, max: 60 },
+    revisionRounds: { min: 0, max: 5 },
+    hourlyValueMinor: { min: 1, max: 100_000_000 },
+    clientContextMaxLength: 80,
+    supportDays: [0, 14, 30, 60],
+  },
+  currencies: {
+    INR: {
+      code: "INR",
+      minorUnitExponent: 2,
+      symbol: "₹",
+      displayName: "Indian rupee",
+      commercialRoundingIncrementMinor: 50_000,
+      hourlyRoundingIncrementMinor: 100,
+    },
+    USD: {
+      code: "USD",
+      minorUnitExponent: 2,
+      symbol: "$",
+      displayName: "US dollar",
+      commercialRoundingIncrementMinor: 1_000,
+      hourlyRoundingIncrementMinor: 100,
+    },
+    GBP: {
+      code: "GBP",
+      minorUnitExponent: 2,
+      symbol: "£",
+      displayName: "British pound",
+      commercialRoundingIncrementMinor: 1_000,
+      hourlyRoundingIncrementMinor: 100,
+    },
+    EUR: {
+      code: "EUR",
+      minorUnitExponent: 2,
+      symbol: "€",
+      displayName: "Euro",
+      commercialRoundingIncrementMinor: 1_000,
+      hourlyRoundingIncrementMinor: 100,
+    },
+  },
+  expectedEffortPositionBp: 5_000,
+  effort: {
+    projectTypes: {
+      landing: { includedPages: 1, range: range(10, 16) },
+      business: { includedPages: 5, range: range(16, 24) },
+      portfolio: { includedPages: 5, range: range(14, 22) },
+      blog: { includedPages: 5, range: range(16, 24) },
+      ecommerce: { includedPages: 7, range: range(24, 36) },
+      webApp: { includedPages: 5, range: range(32, 52) },
+      custom: { includedPages: 5, range: range(20, 32) },
+    },
+    pages: {
+      standard: range(2, 4),
+      ecommerce: range(3, 5),
+      webApp: range(4, 8),
+    },
+    design: {
+      provided: { shared: range(2, 4), additionalPage: range(0.25, 0.5) },
+      template: { shared: range(6, 10), additionalPage: range(0.5, 1) },
+      custom: { shared: range(14, 24), additionalPage: range(1, 2) },
+      fullUx: { shared: range(24, 40), additionalPage: range(2, 3.5) },
+    },
+    contentPerPage: {
+      provided: range(0, 0),
+      formatting: range(0.5, 1),
+      copywriting: range(1.5, 3),
+    },
+    assetSourcingPerPage: range(0.5, 1),
+    features: {
+      contactForm: range(2, 4),
+      blogCms: range(8, 14),
+      search: range(5, 10),
+      authentication: range(14, 24),
+      userAccounts: range(12, 22),
+      adminDashboard: range(20, 36),
+      booking: range(12, 22),
+      payments: range(10, 18),
+      ecommerce: range(28, 48),
+      membership: range(18, 32),
+      subscriptions: range(16, 28),
+    },
+    integrations: {
+      crm: range(4, 8),
+      emailMarketing: range(3, 6),
+      analytics: range(2, 4),
+      maps: range(3, 6),
+      otherStandard: range(4, 8),
+      thirdPartyApi: range(8, 16),
+      customApi: range(16, 32),
+    },
+    migration: {
+      none: range(0, 0),
+      light: range(4, 8),
+      standard: range(10, 20),
+      complex: range(24, 48),
+    },
+    deployment: {
+      client: range(0, 1),
+      freelancer: range(3, 6),
+    },
+  },
+  complexity: {
+    standardIntegrationFreeCount: 2,
+    largePageThreshold: 20,
+    signals: {
+      standardIntegrationAfterFree: 1,
+      thirdPartyApi: 2,
+      customApi: 3,
+      authentication: 2,
+      userAccounts: 1,
+      adminDashboard: 1,
+      booking: 1,
+      payments: 1,
+      ecommerce: 3,
+      membership: 2,
+      subscriptions: 2,
+      standardMigration: 1,
+      complexMigration: 3,
+      largePageCount: 1,
+    },
+    bands: [
+      {
+        level: "straightforward",
+        minScore: 0,
+        maxScore: 2,
+        effortMultiplierBp: 10_000,
+      },
+      {
+        level: "moderate",
+        minScore: 3,
+        maxScore: 6,
+        effortMultiplierBp: 10_800,
+      },
+      {
+        level: "complex",
+        minScore: 7,
+        maxScore: 11,
+        effortMultiplierBp: 11_600,
+      },
+      {
+        level: "advanced",
+        minScore: 12,
+        maxScore: null,
+        effortMultiplierBp: 12_500,
+      },
+    ],
+  },
+  overhead: {
+    testing: {
+      essential: {
+        ratesBp: { low: 800, expected: 1_000, high: 1_200 },
+        minimum: { lowQh: 8, expectedQh: 10, highQh: 12 },
+      },
+      enhanced: {
+        ratesBp: { low: 1_400, expected: 1_700, high: 2_000 },
+        minimum: { lowQh: 16, expectedQh: 20, highQh: 24 },
+      },
+    },
+    projectManagement: {
+      ratesByComplexityBp: {
+        straightforward: { low: 800, expected: 900, high: 1_000 },
+        moderate: { low: 1_000, expected: 1_100, high: 1_200 },
+        complex: { low: 1_200, expected: 1_350, high: 1_500 },
+        advanced: { low: 1_500, expected: 1_650, high: 1_800 },
+      },
+      minimum: { lowQh: 4, expectedQh: 6, highQh: 8 },
+    },
+  },
+  risk: {
+    contingencyBaseBp: { lean: 500, balanced: 1_000, cautious: 1_500 },
+    adjustmentBp: { low: -200, medium: 0, high: 500 },
+    minimumBp: 300,
+    maximumBp: 2_500,
+  },
+  urgency: { standard: 0, priority: 1_500, rush: 3_000 },
+  timeline: { defaultWeeklyCapacityHours: 25, minimumWeeks: 1 },
+  revisions: {
+    lowRateBp: 400,
+    highRateBp: 800,
+    minimumLowQh: 8,
+    minimumHighQh: 16,
+  },
+  changeOrders: {
+    urgentChangeDefaultUrgency: "priority",
+    genericHourlyEffortQh: 4,
+  },
+  maintenance: {
+    tiers: {
+      none: range(0, 0),
+      essential: range(2, 4),
+      standard: range(4, 8),
+      priority: range(8, 16),
+    },
+    apiPerIntegration: range(0.5, 1),
+    ecommerce: range(1, 2),
+    membershipOrSubscriptions: range(1, 2),
+    businessCritical: range(1, 2),
+    complexMigration: range(1, 3),
+    complexityMultiplierBp: {
+      straightforward: 10_000,
+      moderate: 10_800,
+      complex: 11_600,
+      advanced: 12_500,
+    },
+  },
+  milestones: {
+    shortMaxWeeks: 4,
+    mediumMaxWeeks: 8,
+    schedules: {
+      short: [
+        { code: "start", label: "Project start", percentBp: 5_000 },
+        {
+          code: "approved-build",
+          label: "Approved build milestone",
+          percentBp: 3_000,
+        },
+        { code: "before-launch", label: "Before launch", percentBp: 2_000 },
+      ],
+      medium: [
+        { code: "start", label: "Project start", percentBp: 4_000 },
+        {
+          code: "foundation",
+          label: "Design or foundation approval",
+          percentBp: 3_000,
+        },
+        {
+          code: "feature-complete",
+          label: "Feature complete",
+          percentBp: 2_000,
+        },
+        { code: "before-launch", label: "Before launch", percentBp: 1_000 },
+      ],
+      long: [
+        { code: "start", label: "Project start", percentBp: 3_000 },
+        { code: "foundation", label: "Foundation approval", percentBp: 2_500 },
+        {
+          code: "feature-complete",
+          label: "Feature complete",
+          percentBp: 2_500,
+        },
+        { code: "acceptance", label: "Acceptance", percentBp: 1_000 },
+        { code: "before-launch", label: "Before launch", percentBp: 1_000 },
+      ],
+    },
+    elevatedDepositBp: 5_000,
+    elevatedByRisk: "high",
+    elevatedByUrgency: ["priority", "rush"],
+  },
+  warnings: {
+    integrationDiscoveryThreshold: 15,
+    severalCustomApisThreshold: 3,
+    largeScopePageThreshold: 50,
+    rushCapacityThresholdHours: 20,
+    complexCommerceFeatureThreshold: 2,
+  },
+} as const satisfies PricingConfigV1Input;
+
+export const PRICING_CONFIG_V1 = parsePricingConfigV1(v1Input);

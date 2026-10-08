@@ -1,0 +1,1975 @@
+{
+  "recoveredOn": "2026-10-08",
+  "targetPhase": 4,
+  "destination": "/Users/dileepreddythupakula/Documents/WebQuote-Recovered",
+  "exactMeaning": "Original text restored from complete recorded Add File patches plus subsequent successful patches and original Prettier 3.9.9 formatting. package.json additionally verified against a complete recorded file read. Original Git blobs are unavailable, so these are history-derived contents, not a Git-object integrity certification.",
+  "phaseBoundary": {
+    "session": "rollout-2026-09-27T11-26-14-01a0e16f-7a34-72b0-9aec-9d96d88bf127.jsonl",
+    "phase4CompletionLine": 460,
+    "excludedPhase5RequestLine": 467
+  },
+  "originalFiles": [
+    {
+      "path": ".env.example",
+      "classification": "recovered-exact-from-history",
+      "sha256": "a1d79ab438efbd3bdf5e2be5e79b030cabd20226b6c19fb37cdb9d2f9b414fae",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 465
+        }
+      ]
+    },
+    {
+      "path": ".gitignore",
+      "classification": "recovered-exact-from-history",
+      "sha256": "f95f867ddb546c46d5457399d3d4ba7bbbf9c43b57618fc9772ab712992936da",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 465
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 501
+        }
+      ]
+    },
+    {
+      "path": ".prettierignore",
+      "classification": "recovered-exact-from-history",
+      "sha256": "04a068471563955fd9d0c7cf7d19b8b054633983da5f167f15ebf260aa497a67",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 465
+        }
+      ]
+    },
+    {
+      "path": ".prettierrc.json",
+      "classification": "recovered-exact-from-history",
+      "sha256": "6d5113b70c4eb16c05b000ddcf99f51cc1bc715916fbd7c5652dc8a2d1a31637",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 465
+        }
+      ]
+    },
+    {
+      "path": "AGENTS.md",
+      "classification": "recovered-exact-from-history",
+      "sha256": "521c064d72f5197ea5944c23274e01e261c8c37cf8206da3e418966bdb591e43",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 80
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 169
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 854
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 995
+        },
+        {
+          "session": "rollout-2026-09-27T11-26-14-01a0e16f-7a34-72b0-9aec-9d96d88bf127.jsonl",
+          "line": 6,
+          "method": "complete historical repository instructions including generated Next.js block"
+        }
+      ]
+    },
+    {
+      "path": "ARCHITECTURE.md",
+      "classification": "recovered-exact-from-history",
+      "sha256": "d8b852268f775268b004aa227ef346c143b722fc86e308dbb490578b875f8254",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 80
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 197
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 305
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 319
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 854
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 868
+        },
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 308
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 201
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 917
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1817
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1827
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1837
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1847
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 2315
+        }
+      ]
+    },
+    {
+      "path": "DESIGN_SYSTEM.md",
+      "classification": "recovered-exact-from-history",
+      "sha256": "5dee86466d7ef8cba7997d39e4f7f0cd77368cf98cf08a5589daf6ceb560f321",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 80
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 270
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 305
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 312
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 868
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 201
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 917
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1856
+        }
+      ]
+    },
+    {
+      "path": "IMPLEMENTATION_PLAN.md",
+      "classification": "recovered-exact-from-history",
+      "sha256": "ddc322e16e3de42be173c287ad05355603bd41f149ac0fabcd41e631c7e0012b",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 80
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 256
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 263
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 854
+        },
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 308
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 201
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1856
+        }
+      ]
+    },
+    {
+      "path": "PRICING_ENGINE_SPEC.md",
+      "classification": "recovered-exact-from-history",
+      "sha256": "befa4827e956998c7094f5315397a4887c7c1653c2526119880710d0fd738de9",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 80
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 100
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 204
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 220
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 234
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 335
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 868
+        },
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 308
+        }
+      ]
+    },
+    {
+      "path": "PRODUCT_SPEC.md",
+      "classification": "recovered-exact-from-history",
+      "sha256": "c6bbab222aff6d0a67740f20d77d43e539211f7db15d9a8ad166fd8956330318",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 80
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 176
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 183
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 241
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 305
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 319
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 868
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1856
+        }
+      ]
+    },
+    {
+      "path": "QUALITY_GATES.md",
+      "classification": "recovered-exact-from-history",
+      "sha256": "39ad13c4d27b018ffcae3d34a62b04da1512e3d9be01d75a01419da0f680e300",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 80
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 284
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 291
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 298
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 305
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 854
+        },
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 481
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 201
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1856
+        }
+      ]
+    },
+    {
+      "path": "README.md",
+      "classification": "recovered-exact-from-history",
+      "sha256": "f9be732566267ecb5ab5cee78644f2690efb8edbf4093c1fd8eafde2e7488aef",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 815
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-1-evidence.md",
+      "classification": "recovered-exact-from-history",
+      "sha256": "119aa5cc54aa7c959894527f98cf6320340e5c9e6a6fae8d3066e268554eac39",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 943
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-2-evidence.md",
+      "classification": "recovered-exact-from-history",
+      "sha256": "c3db6b35c7a1594492670b2ee713fba939dbf5cc7e6c9803a0dc103f64d690c1",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 481
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-3-evidence.md",
+      "classification": "recovered-exact-from-history",
+      "sha256": "140ef5364f0ed3264ca77ada6a626d3492156d6e2026e1b7e0cab3a2bce404a6",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 710
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 964
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 971
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-4-evidence.md",
+      "classification": "recovered-exact-from-history",
+      "sha256": "44d483a05730f0babff2c95a4c1c9df10f830c717dfedf440101914d193995a9",
+      "sources": [
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1866
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 2275
+        },
+        {
+          "session": "rollout-2026-09-27T11-26-14-01a0e16f-7a34-72b0-9aec-9d96d88bf127.jsonl",
+          "line": 293
+        }
+      ]
+    },
+    {
+      "path": "docs/pricing-model.md",
+      "classification": "recovered-exact-from-history",
+      "sha256": "7432935d5a43e77fba6a6a5489cbd00b05910399f16dc60ce6e494da208ee8a7",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 308
+        }
+      ]
+    },
+    {
+      "path": "eslint.config.mjs",
+      "classification": "recovered-exact-from-history",
+      "sha256": "17103a5cc5b3b8fe24272330fa055ded3615801c2aa5609445acb64e37c1b8ed",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 465
+        }
+      ]
+    },
+    {
+      "path": "next-env.d.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "a3fb963a1d2d1d49ac2efc962f043c2f4aea4ea9ba4e1eabae904e7a292a9ea5",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 501
+        }
+      ]
+    },
+    {
+      "path": "next.config.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "13c14eaf596f16b598a3d8f6c7b061d2f1aeedf14b5afa6624844c83354b9b4c",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 465
+        }
+      ]
+    },
+    {
+      "path": "package.json",
+      "classification": "recovered-exact-from-history",
+      "sha256": "7b85e5b2cc557dc979d43762da7f6923361baca70254d52b17ad33a55549856f",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 465
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 565
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 627
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1232
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1176,
+          "method": "complete recorded cat output"
+        }
+      ]
+    },
+    {
+      "path": "playwright.config.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "ab7c81c2ded13adb0953091fddd693e285e935cdd134b5a77fb163a85cd1dba2",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 465
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 565
+        }
+      ]
+    },
+    {
+      "path": "postcss.config.mjs",
+      "classification": "recovered-exact-from-history",
+      "sha256": "dfac7ac2d86d326a0e5adb024e7943c181393ed17a5fcb8f0315b24c7da6ddde",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 465
+        }
+      ]
+    },
+    {
+      "path": "src/app/error.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "6636cd97669e3cf5d265eb91973836b0a5bb7cb8d030b7afcfcee1ad416bbe0a",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 533
+        }
+      ]
+    },
+    {
+      "path": "src/app/global-error.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "14d73492b3c8a997165880a62e6277416d51ba052470be15bca7158153611dd9",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 533
+        }
+      ]
+    },
+    {
+      "path": "src/app/icon.svg",
+      "classification": "recovered-exact-from-history",
+      "sha256": "144954f5c14ea38cec12894d88dacdc4c82858cb0f206bd32d258cb077e66a81",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 533
+        }
+      ]
+    },
+    {
+      "path": "src/app/layout.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "8bb2bd15eabd65b9133509ad6e73f739a40ce54dc4d52881025a3e574ca21a4d",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 533
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 995
+        }
+      ]
+    },
+    {
+      "path": "src/app/metadata-routes.test.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "a6a0e9b26573f36e88db5eefa7c14c644a17db68cbf49bed8afe231dc5188948",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 806
+        }
+      ]
+    },
+    {
+      "path": "src/app/not-found.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "4a0ee80102337341ccb791bb9959de6aff34c81a44da77bbef5dfedea993cf47",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 533
+        }
+      ]
+    },
+    {
+      "path": "src/app/page.test.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "60c9442f32ed59b627809b95c0f506ff0cd79e79cd19ca685d9f6077e488584d",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 540
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 160
+        }
+      ]
+    },
+    {
+      "path": "src/app/page.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "83b226acb409820534abaf65bdad527b477316f14264e41ee83f1a4d0b21afb5",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 533
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 153
+        }
+      ]
+    },
+    {
+      "path": "src/app/quote/layout.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "4c3e2fdde44c784d24bf3b6ddc13b109a6836212874d5def5a2453e55dcbb278",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 533
+        }
+      ]
+    },
+    {
+      "path": "src/app/quote/page.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "31ce6d7a68ac1cffb1dfad056474285bb378f724f0bf60c8e296d2546427346a",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 533
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 153
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 674
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 679
+        }
+      ]
+    },
+    {
+      "path": "src/app/quote/result/page.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "c31915a30a99c7da5f7ba3a0f117a9abdad3fca51bbc0df80e591c7c95bd840e",
+      "sources": [
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 679
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 746
+        }
+      ]
+    },
+    {
+      "path": "src/app/robots.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "8d87b2f9bbdd588a2fb5bba65da83b5874b9b6acf5157d0420d193fa31fbb4c0",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 533
+        }
+      ]
+    },
+    {
+      "path": "src/app/sitemap.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "1f5f54c2fcf007370474162e4f7ffc9ebd56f2f578c073a278efd28fbd18f051",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 533
+        }
+      ]
+    },
+    {
+      "path": "src/components/layout/container.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "2b026e7f7a9741e4406123fc42e87c65093c6fed6d0d59b255b8fe62171a64dd",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 526
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 132
+        }
+      ]
+    },
+    {
+      "path": "src/components/layout/section.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "ee588349ef0316effa05ca79ed742e18780ad269c9d5bc65287c1c1c5845144f",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 526
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 132
+        }
+      ]
+    },
+    {
+      "path": "src/components/quote-builder/quote-builder.test.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "904879004d841a0389027bc91aae321c493deaacfa6824f4998c37ff5eef1ece",
+      "sources": [
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 799
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 864
+        },
+        {
+          "session": "rollout-2026-09-27T11-26-14-01a0e16f-7a34-72b0-9aec-9d96d88bf127.jsonl",
+          "line": 151
+        },
+        {
+          "session": "rollout-2026-09-27T11-26-14-01a0e16f-7a34-72b0-9aec-9d96d88bf127.jsonl",
+          "line": 187
+        }
+      ]
+    },
+    {
+      "path": "src/components/quote-builder/quote-builder.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "0c0b94391dec46ee740dd7947b1254efe1880a1aed5df7dc3b8f3d9da0ebee84",
+      "sources": [
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 654
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 661
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 919
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1115
+        },
+        {
+          "session": "rollout-2026-09-27T11-26-14-01a0e16f-7a34-72b0-9aec-9d96d88bf127.jsonl",
+          "line": 130
+        }
+      ]
+    },
+    {
+      "path": "src/components/quote-builder/result-handoff.test.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "4e1e00ca4fbcc1b49d3a730e171f54558f45a766ce4b835db238b22de7e63fe5",
+      "sources": [
+        {
+          "session": "rollout-2026-09-27T11-26-14-01a0e16f-7a34-72b0-9aec-9d96d88bf127.jsonl",
+          "line": 151
+        }
+      ]
+    },
+    {
+      "path": "src/components/quote-builder/result-handoff.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "9f203bfab29b4a38577771cd68e0dc4f14886c54706ec0716f00ae03036f8805",
+      "sources": [
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 746
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 919
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1115
+        },
+        {
+          "session": "rollout-2026-09-27T11-26-14-01a0e16f-7a34-72b0-9aec-9d96d88bf127.jsonl",
+          "line": 144
+        }
+      ]
+    },
+    {
+      "path": "src/components/site-header.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "02acb9729b35403dc5e98e1ec4d825091f3d2e8b429b308fc8845dc0224a6321",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 533
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 146
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 227
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 458
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/button.test.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "7438a3e1dc779709d77a87e498298b1c7d37b66343751f21ff6165079e93ff2c",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 540
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/button.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "ec6caf1ea50a7f638bd25881021dfa15b90bda09b25ca5d966889660a89dbd66",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 526
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 132
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 245
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/checkbox-field.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "68b94fbc704c01e3e36e688ee168e597db5b4ba96bff49543fb0ea675d4ce60a",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 526
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 132
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 707
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/disclosure.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "409adbbbd7fdc7bb3e1afdcf74e2e35ac73f94db31125961c140f935307bcfd1",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 910
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/field-group.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "9c28ef95012517a5de6e3f2e0548fd36b06608cad94ab214803f2466c3fe0411",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 139
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 227
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/financial.test.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "6e68e6aeabb834b693841f183b4b5419abe17f5c8cb61a763445e6681f0e4c65",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 174
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/financial.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "72d2b23411aaa9837aec16ff899fe31a49dda9b31ccbe8d5c480008507ff25e7",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 139
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/form-fields.test.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "73e92a75edfe11e79eceaddbe975b2b2efc0a6f708de1a957c3761eeacbe0d79",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 540
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 174
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/input-field.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "adee45750ce799f595dca3152383b5fc92d5c597217bc6b2d6d91e6474aa6766",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 526
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 132
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 160
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 707
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/notice.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "be026c1843697967a626c1770187c0d8e86a6cc9e0dbf615792c4cffdca466e8",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 139
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/radio-group-field.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "0bd05e663169f6db6a1d176bdd11301355427a9d7a0059089ef0854271b0a7c2",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 139
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 227
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 707
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1298
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/segmented-field.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "55096b060d4d7f2bf830937e471f5a86a801b04842c896bfba94011c4e2ed384",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 139
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 227
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/select-field.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "9fad800c004f13ab4b6240c8da9df59f905910a694235aca3daff16b0ffed315",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 526
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 132
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 707
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/status-panel.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "26b61dde7caf64b44bc8fc4b1d6444bd0f46a479fc9a774788f4a1d636acd1e1",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 910
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/status-primitives.test.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "356bfe613d31f047658bd25cf025a0f645a9d0e74ffe8e01812360d3b12b374e",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 910
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/step-progress.test.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "ea816174ab5236422be03baf86f0a2953d45b73084f540c566c3154dd8fe3d45",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 174
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 227
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 809
+        },
+        {
+          "session": "rollout-2026-09-27T11-26-14-01a0e16f-7a34-72b0-9aec-9d96d88bf127.jsonl",
+          "line": 123
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/step-progress.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "38aa0d5f97999310ff3370791d055c90045c6e5264e984d93766f5a4602b607b",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 139
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 326
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 363
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 652
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 245
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 627
+        },
+        {
+          "session": "rollout-2026-09-27T11-26-14-01a0e16f-7a34-72b0-9aec-9d96d88bf127.jsonl",
+          "line": 123
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/textarea-field.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "ac327eccd496d92434f4716170a5d13d056de087ed1ef9947922af2932681125",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 139
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 707
+        }
+      ]
+    },
+    {
+      "path": "src/components/ui/visually-hidden.tsx",
+      "classification": "recovered-exact-from-history",
+      "sha256": "799a385577cb44e700b46247c69cbb68eeff608ea333cd7e2102efbcb99bcf58",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 526
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/arithmetic.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "b066871c99355c91014835c8ab654b7cd196eb820e73863bb52dd06eace88490",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1093
+        },
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 173
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/calculate.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "ae07f2c6aee5e80267e081cbd8dfaf144682380b6b844ddbb2294e8422dd1506",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1160
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1188
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1297
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/change-orders.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "bde4740f96b2d9222bde367e06e11184cc0af189407d6c6e9c7b60f8c5dc2c22",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1146
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1188
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/commercial-pricing.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "d7e70066909979026b7215350ded485c416da7c942fdd30fab60d983bfabb0cf",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1146
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/complexity.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "166c43a992545ae1eb571fceb4e48821dff5de331254babaa5d91f468f69d842",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1123
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/config/index.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "fbd17163d9cf10d79d5bbfb916c15bf26b42651c4a7b49d748b6224f2dcaff55",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1109
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/config/registry.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "fd8b222a0c8eb898264473cdc2d40cda92708f9a58f923498ea640b679f6ea9f",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1109
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/config/schema.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "dddd448c406bcaa8cca6d4705bce26b7335b791168bab3dc13263c705ebdcf3e",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1102
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1139
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1246
+        },
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 173
+        },
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 377
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/config/v1.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "f0563fb68b02d8b6f212111e24d7ad989b9480ed91cbc0c73a19bca71c606a0b",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1102
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1139
+        },
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 173
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/effort.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "f13c9af21f57a2c388cea015e9906760dc5f3ee2b278c4d87c17748fa0fc7634",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1123
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1139
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/index.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "36811253d834957f1df85b40ce81285156066a8d49b6dc2147fd59ef5b13c830",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1160
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/invariants.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "3e2b525c2e22377aec0affa462f6e52ab89fe8139db375cba3eb782dd2c40d8c",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1160
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/maintenance.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "058768be48e76a379b89b7d7a704c107b1326c86536826f4bab16518962cbbcb",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1153
+        },
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 173
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/milestones.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "4a9ae8adfefec11629923561848520ba4f279e508a0c9e805f767341c2731d45",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1153
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1174
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1297
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/normalization.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "ace2a5101a78e907817e762f0eef554d011a56af145e725d9c44abb207fe81d4",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1116
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/pricing.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "0a67f76135960044efcbe8e7e1015a5658d7a5470ebcd8b237238921769e5942",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1130
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/revisions.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "fc5bec015a209b634ed0d1f7210e075ea532387aaa74d66490c56135e42b6253",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1146
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/risk.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "dd9433e05e1c92a0ddbb51004506d01c2c772d4e4b5c36ecbed6629c7a85827e",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1130
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/schema.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "a8a23b3b6bafc617e134e380d2c528f03a822a16e5e9240b1dfd69b118ba6411",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1116
+        },
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 326
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/scope.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "065ed4d754f405dd24f01ac3ac0b41519666e6167110424cbfcbdd036fc796cd",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1153
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1174
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/timeline.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "d6e1b81d520d310f7985416a9474e2246f4f8d44d263f3284e3d5231f4899b8f",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1146
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/types.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "f2ccaed798358534ff832ebcbc2940e130436148c52901f2ac99f88487815fe1",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1093
+        },
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 377
+        }
+      ]
+    },
+    {
+      "path": "src/domain/quote/warnings.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "9c5888e3a9253d7d9f9555823a6d0606cb907245fcaffda684d48af4339a576d",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1153
+        }
+      ]
+    },
+    {
+      "path": "src/features/quote-builder/defaults.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "37c3cb2f29137a05a796c921562e82ecb7b8fc0855da886d520c8e90a07cc822",
+      "sources": [
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 634
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 661
+        }
+      ]
+    },
+    {
+      "path": "src/features/quote-builder/mapping.test.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "1661ef3218caf094ec5dbd780466afdd9e49889e693c2f03d7ae4eee78cc974d",
+      "sources": [
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 781
+        }
+      ]
+    },
+    {
+      "path": "src/features/quote-builder/mapping.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "e178ad16bdbb385444d6af174aece0890585dac5f07e142018b09bfe3fd3e8de",
+      "sources": [
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 634
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 707
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 717
+        }
+      ]
+    },
+    {
+      "path": "src/features/quote-builder/persistence.test.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "85a05a0c196eec49c69d41422ea3d0c0cb31fab155ff4c023fbb8c47f0dcb2d7",
+      "sources": [
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 781
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1640
+        }
+      ]
+    },
+    {
+      "path": "src/features/quote-builder/persistence.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "7c41d3f9370f8f36015baa884ce5cf2b45f2bf5f8219e1c3c7369f2b5e44322c",
+      "sources": [
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 634
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1115
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1189
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1701
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1893
+        }
+      ]
+    },
+    {
+      "path": "src/features/quote-builder/presentation.test.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "70fdd8a52ad4631ca8f3e57623442a519e4e720bd8d669b8af0bcc06200c9ad1",
+      "sources": [
+        {
+          "session": "rollout-2026-09-27T11-26-14-01a0e16f-7a34-72b0-9aec-9d96d88bf127.jsonl",
+          "line": 123
+        }
+      ]
+    },
+    {
+      "path": "src/features/quote-builder/presentation.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "6c6fc5855280c5b326339278550b638b3e09677892e9e461295c4846cb69b53a",
+      "sources": [
+        {
+          "session": "rollout-2026-09-27T11-26-14-01a0e16f-7a34-72b0-9aec-9d96d88bf127.jsonl",
+          "line": 123
+        }
+      ]
+    },
+    {
+      "path": "src/features/quote-builder/reducer.test.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "9397481a8b342b9d0909cb8f06a6a2d57d3472e59f7ecb04f3fb99fa916f436c",
+      "sources": [
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 781
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1468
+        }
+      ]
+    },
+    {
+      "path": "src/features/quote-builder/reducer.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "0469e26a1ce9333784c5d7d72e345c6bb911b7a207cae97b023b0b796abfc938",
+      "sources": [
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 634
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 643
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1443
+        }
+      ]
+    },
+    {
+      "path": "src/features/quote-builder/steps.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "ff92492ac95dfde7da09dbcfa65983e1d45fdaa661af3fe8b58517cfe682031c",
+      "sources": [
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 634
+        },
+        {
+          "session": "rollout-2026-09-27T11-26-14-01a0e16f-7a34-72b0-9aec-9d96d88bf127.jsonl",
+          "line": 144
+        }
+      ]
+    },
+    {
+      "path": "src/features/quote-builder/types.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "50f19077865ffaecb7fe30cd9c7cf014f3ee69db7e4e1fce1d5572e3ddd4ed84",
+      "sources": [
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 634
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 661
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 707
+        }
+      ]
+    },
+    {
+      "path": "src/features/quote-builder/validation.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "ab2c092d4d0ec1726f6b0afb9c213513fc884b77168a48bcc3ae4b122361c9c8",
+      "sources": [
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 634
+        }
+      ]
+    },
+    {
+      "path": "src/lib/classes.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "ca7d9394ba05ee06d2fc8e72b8a5df1db53bab410baa6056a72b8eaaf739b82e",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 526
+        }
+      ]
+    },
+    {
+      "path": "src/lib/site.test.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "9916c05750e38a395d3638593b345dcbb6a4072b4d9e3852fa203fce264fab9a",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 540
+        }
+      ]
+    },
+    {
+      "path": "src/lib/site.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "db6cffb1ece6787b4d3609bbded22ccdc06ec0d333eba3d319fd06bad9155706",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 526
+        }
+      ]
+    },
+    {
+      "path": "src/styles/globals.css",
+      "classification": "recovered-exact-from-history",
+      "sha256": "5b0183be2b0de48d203bdd374785688cfccdf2176615b4596fa2d201ba8be1ea",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 533
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 125
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 245
+        }
+      ]
+    },
+    {
+      "path": "src/test/setup.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "9b328c4843431fa76d8de00008fc159e95f99a840211085ff3b8f25e53d14409",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 540
+        }
+      ]
+    },
+    {
+      "path": "tests/e2e/shell.spec.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "6ed8103282eeb4e2f166cc762249436fb9801fd5006f5ecd7d3f32acd41dc162",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 540
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 772
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 786
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 160
+        },
+        {
+          "session": "rollout-2026-09-26T21-55-32-01a0de89-4211-7980-8566-d938ef92093b.jsonl",
+          "line": 167
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1182
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1305
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1393
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1400
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1416
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1516
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1701
+        },
+        {
+          "session": "rollout-2026-09-27T09-35-22-01a0e109-f926-7532-87c5-c2498e773493.jsonl",
+          "line": 1960
+        },
+        {
+          "session": "rollout-2026-09-27T11-26-14-01a0e16f-7a34-72b0-9aec-9d96d88bf127.jsonl",
+          "line": 151
+        },
+        {
+          "session": "rollout-2026-09-27T11-26-14-01a0e16f-7a34-72b0-9aec-9d96d88bf127.jsonl",
+          "line": 158
+        }
+      ]
+    },
+    {
+      "path": "tests/fixtures/quotes/v1-ledgers.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "2dc56d315d0d53d739b31de3ceb9ea826601e4b0f5c439e782eb46a648a855c6",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 271
+        }
+      ]
+    },
+    {
+      "path": "tests/fixtures/quotes/v1.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "dcbc762bcee5dbc53a47c20b0e358a6dad17b9afdf4defb15a881dbd4f3c7350",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1197
+        }
+      ]
+    },
+    {
+      "path": "tests/unit/domain/quote/arithmetic.test.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "9d63a26f5fbe0b49a8c38bafbe9c13ba484780d2633621671da3afd62e028227",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1211
+        },
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 278
+        }
+      ]
+    },
+    {
+      "path": "tests/unit/domain/quote/commercial.test.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "b4c528684dd4819abfe00744de024bbfe38fe9f70587276e47cc7305628205b8",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1304
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1318
+        },
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 278
+        }
+      ]
+    },
+    {
+      "path": "tests/unit/domain/quote/config.test.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "4e1804f3d5954e479a60e3e5af66f989a962cc410b91e49a42badcb7dd39bb2a",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1211
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1260
+        },
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 278
+        }
+      ]
+    },
+    {
+      "path": "tests/unit/domain/quote/engine.test.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "11818b6c0a07109d3ffa0066da55738f94dc8cea44d326bb93c2688ce79b422e",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1267
+        }
+      ]
+    },
+    {
+      "path": "tests/unit/domain/quote/fixture-ledgers.test.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "6396a73c9636df8e69af7ace05b8e969c73247165788dcccb303d0801cf569e7",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 278
+        }
+      ]
+    },
+    {
+      "path": "tests/unit/domain/quote/helpers.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "c870ea9194cb9dc7941b3a84992d2137ebe559c3fdc8e13bc9c044865612c3c6",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1211
+        }
+      ]
+    },
+    {
+      "path": "tests/unit/domain/quote/invariants.test.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "99c7ca65fe0dd8d486e1f3138131a1e97208caeb948f64c703ce15c229329a15",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1304
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1318
+        }
+      ]
+    },
+    {
+      "path": "tests/unit/domain/quote/schema-normalization.test.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "ba7aa30879d9268c951978ec92d62d0902e98cf0ccff7d9fb769a822dc8a2e53",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1211
+        },
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 326
+        },
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 333
+        },
+        {
+          "session": "rollout-2026-09-26T21-41-04-01a0de7c-0531-73e3-87fa-2683b827a64f.jsonl",
+          "line": 377
+        }
+      ]
+    },
+    {
+      "path": "tsconfig.json",
+      "classification": "recovered-exact-from-history",
+      "sha256": "76484d8ef83c50cea276b054fcaebb49659d0ef59a71d1746442eef648eb7111",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 465
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 565
+        }
+      ]
+    },
+    {
+      "path": "vitest.config.ts",
+      "classification": "recovered-exact-from-history",
+      "sha256": "b58ce10d0875024731eaa22cdd172d5885ac413384ee8c454fb93f3348a8898a",
+      "sources": [
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 465
+        },
+        {
+          "session": "rollout-2026-09-26T17-33-42-01a0dd99-8c65-7661-ac91-3a0a75a28f41.jsonl",
+          "line": 1232
+        }
+      ]
+    }
+  ],
+  "reconstructedFiles": [
+    {
+      "path": "package-lock.json",
+      "classification": "regenerated-not-original",
+      "sha256": "54a6ec6ead42f25d1e0a5a1784de94477364f19723fe3b43c18c0ca480ae8965",
+      "reason": "Original full lockfile was not recorded. npm install resolved a new dependency graph using the exact recovered package.json."
+    }
+  ],
+  "missing": [
+    "Original .git object database, refs, index, reflog, and local Git configuration",
+    "Original package-lock.json bytes and exact transitive dependency graph"
+  ],
+  "knownCommits": [
+    {
+      "hash": "fbabaceab97523ee3670dc3e91667fb85c888599",
+      "message": "Establish WebQuote engineering foundation"
+    },
+    {
+      "hash": "407e180ea492274c378b9574aa760f9f3fadb195",
+      "message": "Implement deterministic WebQuote pricing domain"
+    },
+    {
+      "hash": "9bf3901",
+      "message": "Build WebQuote product experience and quote builder",
+      "note": "Only abbreviated hash visible in history; main HEAD before Phase 5."
+    }
+  ]
+}
