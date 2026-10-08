@@ -119,6 +119,10 @@ Phase 5 handoff boundary; it does not render commercial results or export a PDF.
 
 ## Phase 5 — Results, scope, overrides, and commercial terms
 
+Status: **Complete — 2026-10-08.** Final verification and the accepted
+development-tooling audit exception are recorded in
+`docs/phase-5-evidence.md`. Phase 6 has not begun.
+
 ### Work
 
 - Implement result hierarchy, low/expected/high effort, recommended range, minimum safe price, timeline, and separate complexity/risk presentation.

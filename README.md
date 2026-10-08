@@ -2,23 +2,26 @@
 
 Know what to charge before you send the quote.
 
-WebQuote is a planned professional website-project pricing, scope, revision, payment, maintenance, and quote-building product for freelancers and small digital agencies. The product will use deterministic, explainable calculations based on user inputs; it will not claim to provide an objective market price.
+WebQuote is a professional website-project pricing, scope, revision, payment, maintenance, and quote-building product for freelancers and small digital agencies. Its deterministic, explainable calculations use the user's inputs and documented planning assumptions; they do not claim to provide an objective market price.
 
 ## Current status
 
-Phase 1 — Engineering Foundation is implemented.
+Phases 1–5 are implemented. Phase 6 PDF export remains deferred.
 
 The repository currently provides:
 
 - a strict Next.js App Router and TypeScript foundation;
 - the approved WebQuote design tokens and reusable semantic primitives;
-- minimal development-stage shells at `/` and `/quote`;
+- the guided quote builder at `/quote` and results workspace at `/quote/result`;
+- a deterministic pricing domain with versioned calibration and tests;
+- local draft/result storage, a validated commercial override layer, and stale-override recovery;
+- a structured client quote document, HTML preview, and copyable plain-text summary;
 - accessible skip navigation, error handling, and 404 behavior;
 - fail-closed metadata, robots, and sitemap foundations;
 - Vitest/React Testing Library and Playwright infrastructure; and
 - documented local-first privacy and architecture boundaries.
 
-Pricing calculations, the guided quote builder, the results workspace, PDF export, and the final landing page are deliberately not implemented yet.
+PDF export and the final landing page remain later phases. The current results page does not generate or download a PDF.
 
 ## Requirements
 
@@ -74,14 +77,17 @@ Playwright launches a local server on port 3100 when one is not already availabl
 - `src/app` — App Router pages, layouts, metadata routes, and error surfaces.
 - `src/components/layout` — responsive layout primitives.
 - `src/components/ui` — small semantic form/action primitives.
+- `src/domain/quote` — framework-independent deterministic pricing and result contracts.
+- `src/features/quote-builder` — mapping, draft state, and local persistence.
+- `src/features/quote-results` — result validation and commercial overrides.
+- `src/features/client-summary` — validated client document, text summary, and clipboard fallback.
+- `src/components/quote-results` — interactive results workspace and accessible client preview.
 - `src/lib` — framework-light shared helpers and public environment validation.
 - `src/styles` — global tokens and base behavior.
 - `src/test` — shared unit/component test setup.
 - `tests/e2e` — browser-level smoke tests.
 
-Server Components are the default. The only current Client Components are the Next.js error boundaries, where browser interaction is required. Future pricing/domain code must remain independent of React, Next.js, storage, and PDF rendering.
-
-The planned `domain`, builder, results, persistence, client-document, and PDF-export modules are not pre-created. They will be introduced only in their approved phases.
+Server Components remain the default for route shells. The builder and results workspace are Client Components where browser storage, editing, and clipboard access are required. The pricing domain remains independent of React, Next.js, storage, and PDF rendering.
 
 ## Design foundation
 
@@ -107,14 +113,13 @@ No gradients, glow, glass effects, animation framework, dark mode, generic UI fr
 
 ## Build note
 
-The scripts use Next.js's supported Webpack path. In this environment, Turbopack's CSS worker attempted to bind an internal local port and failed with `EPERM`; the same Next.js 16.3.6 production build passes with Webpack. This is an environment/tooling constraint, not an application fallback.
+The scripts use Next.js's supported Webpack path. In this environment, Turbopack's CSS worker attempted to bind an internal local port and failed with `EPERM`; the pinned Next.js 16.4.0 production build passes with Webpack. This is an environment/tooling constraint, not an application fallback.
 
 ## Product boundaries
 
 - Quote data remains local-first in launch V1.
 - No analytics, telemetry, client-data URLs, external APIs, database, or authentication exist in this phase.
-- No pricing or calibration values are implemented yet.
-- Later pricing values must live in one validated, versioned configuration and remain planning hypotheses.
+- Pricing values live in one validated, versioned configuration and remain planning hypotheses.
 - PDF export will use the structured client-document boundary, default to A4, preserve a US Letter seam, and exclude internal calculations by default. No renderer has been selected or installed yet.
 
 See the planning documents in the repository root for approved product, architecture, design, pricing, implementation, and quality requirements.

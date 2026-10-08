@@ -25,6 +25,12 @@ describe("QuoteBuilder", () => {
     await user.type(pages, "12");
     await user.click(screen.getByRole("button", { name: "Continue" }));
 
+    const saved = JSON.parse(
+      window.localStorage.getItem("webquote.active-draft.v1")!,
+    );
+    expect(saved.currentStep).toBe("design");
+    expect(saved.draft.project.pageCount).toBe("12");
+
     expect(
       screen.getByRole("heading", { name: "Make the starting point clear" }),
     ).toBeInTheDocument();
