@@ -1,18 +1,26 @@
 import { z } from "zod";
 
-import { parseQuoteInputV1, PRICING_CONFIG_V1 } from "@/domain/quote";
 import { BUILDER_STEP_IDS } from "@/features/quote-builder/steps";
 import type {
   BuilderStepId,
   PersistedDraftSnapshot,
   QuoteBuilderDraft,
 } from "@/features/quote-builder/types";
+import type { QuoteResultV1 } from "@/domain/quote/types";
+import { parseStoredQuoteResult } from "@/features/quote-results/result-schema";
+import {
+  clearSessionOverrides,
+  getSessionOverrides,
+} from "@/features/quote-results/override-session";
 
 export const DRAFT_STORAGE_KEY = "webquote.active-draft.v1";
 export const RESULT_STORAGE_KEY = "webquote.latest-result.v1";
+export const OVERRIDE_STORAGE_KEY = "webquote.commercial-overrides.v1";
 const STORAGE_VERSION = 1;
+const RESULT_STORAGE_VERSION = 2;
 
 let sessionLatestResult: unknown | null = null;
+let staleOverridesReset = false;
 
 const featureKeys = [
   "contactForm",
@@ -104,20 +112,30 @@ const draftEnvelopeSchema = z.strictObject({
 
 type StorageLike = Pick<Storage, "getItem" | "setItem" | "removeItem">;
 
-function isStoredResult(
-  value: unknown,
-): value is { resultVersion: "quote-result-v1"; input: unknown } {
-  if (typeof value !== "object" || value === null) return false;
-  const result = value as { resultVersion?: unknown; input?: unknown };
-  if (result.resultVersion !== "quote-result-v1") return false;
-  if (typeof result.input !== "object" || result.input === null) return false;
-
-  const rawInput = Object.fromEntries(
-    Object.entries(result.input as Record<string, unknown>).filter(
-      ([key]) => key !== "normalization",
-    ),
+export function resultIdentity(result: QuoteResultV1): string {
+  const input = Object.fromEntries(
+    Object.entries(result.input).filter(([key]) => key !== "normalization"),
   );
-  return parseQuoteInputV1(rawInput, PRICING_CONFIG_V1).ok;
+  const text = JSON.stringify({
+    resultVersion: result.resultVersion,
+    modelVersion: result.modelVersion,
+    pricingConfig: result.pricingConfig,
+    input,
+  });
+  let hash = 0xcbf29ce484222325n;
+  for (let index = 0; index < text.length; index += 1) {
+    hash = BigInt.asUintN(
+      64,
+      (hash ^ BigInt(text.charCodeAt(index))) * 0x100000001b3n,
+    );
+  }
+  return `quote-result-v1:${hash.toString(16).padStart(16, "0")}`;
+}
+
+export function consumeStaleOverrideNotice(): boolean {
+  const wasReset = staleOverridesReset;
+  staleOverridesReset = false;
+  return wasReset;
 }
 
 export type DraftLoadResult =
@@ -166,10 +184,13 @@ export function savePersistedDraft(
   if (!storage) return false;
   try {
     const now = new Date().toISOString();
+    const previous = snapshot.createdAt ? null : loadPersistedDraft(storage);
     const envelope = {
       storageVersion: STORAGE_VERSION,
       ...snapshot,
-      createdAt: snapshot.createdAt ?? now,
+      createdAt:
+        snapshot.createdAt ??
+        (previous?.status === "restored" ? previous.snapshot.createdAt : now),
       updatedAt: snapshot.updatedAt ?? now,
     };
     const parsed = draftEnvelopeSchema.parse(envelope);
@@ -184,15 +205,42 @@ export function saveLatestResult(
   result: unknown,
   storage: StorageLike | null = getStorage(),
 ): boolean {
-  sessionLatestResult = result;
+  const valid = parseStoredQuoteResult(result);
+  if (!valid) return false;
+  sessionLatestResult = valid;
+  if (
+    getSessionOverrides()?.resultIdentity !== undefined &&
+    getSessionOverrides()?.resultIdentity !== resultIdentity(valid)
+  ) {
+    clearSessionOverrides();
+    staleOverridesReset = true;
+  }
   if (!storage) return true;
   try {
+    const rawOverrides = storage.getItem(OVERRIDE_STORAGE_KEY);
+    if (rawOverrides) {
+      let storedIdentity: unknown;
+      try {
+        storedIdentity = (
+          JSON.parse(rawOverrides) as { resultIdentity?: unknown }
+        ).resultIdentity;
+      } catch {
+        storedIdentity = null;
+      }
+      if (storedIdentity !== resultIdentity(valid)) {
+        storage.removeItem(OVERRIDE_STORAGE_KEY);
+        clearSessionOverrides();
+        staleOverridesReset = true;
+      }
+    }
     const now = new Date().toISOString();
     storage.setItem(
       RESULT_STORAGE_KEY,
       JSON.stringify({
-        storageVersion: STORAGE_VERSION,
-        result,
+        storageVersion: RESULT_STORAGE_VERSION,
+        result: valid,
+        resultIdentity: resultIdentity(valid),
+        pricingConfig: valid.pricingConfig,
         createdAt: now,
         updatedAt: now,
       }),
@@ -203,44 +251,70 @@ export function saveLatestResult(
   }
 }
 
+export type ResultLoadResult =
+  | Readonly<{ status: "restored"; result: QuoteResultV1 }>
+  | Readonly<{ status: "empty" | "corrupt" | "unsupported" | "unavailable" }>;
+
+export function loadLatestResultState(
+  storage: StorageLike | null = getStorage(),
+): ResultLoadResult {
+  if (sessionLatestResult !== null) {
+    const result = parseStoredQuoteResult(sessionLatestResult);
+    if (result) return { status: "restored", result };
+    sessionLatestResult = null;
+  }
+  if (!storage) return { status: "unavailable" };
+  try {
+    const raw = storage.getItem(RESULT_STORAGE_KEY);
+    if (!raw) return { status: "empty" };
+    const candidate: unknown = JSON.parse(raw);
+    if (typeof candidate !== "object" || candidate === null) {
+      return { status: "corrupt" };
+    }
+    const envelope = candidate as {
+      storageVersion?: unknown;
+      result?: unknown;
+      resultIdentity?: unknown;
+      pricingConfig?: unknown;
+    };
+    if (
+      envelope.storageVersion !== STORAGE_VERSION &&
+      envelope.storageVersion !== RESULT_STORAGE_VERSION
+    )
+      return { status: "unsupported" };
+    const result = parseStoredQuoteResult(envelope.result);
+    if (!result) return { status: "corrupt" };
+    if (
+      envelope.storageVersion === RESULT_STORAGE_VERSION &&
+      (envelope.resultIdentity !== resultIdentity(result) ||
+        JSON.stringify(envelope.pricingConfig) !==
+          JSON.stringify(result.pricingConfig))
+    )
+      return { status: "corrupt" };
+    return { status: "restored", result };
+  } catch {
+    return { status: "corrupt" };
+  }
+}
+
 export function loadLatestResult(
   storage: StorageLike | null = getStorage(),
 ): unknown | null {
-  if (sessionLatestResult !== null) {
-    const result = sessionLatestResult;
-    if (isStoredResult(result)) {
-      return result;
-    }
-    sessionLatestResult = null;
-  }
-  if (!storage) return null;
-  try {
-    const raw = storage.getItem(RESULT_STORAGE_KEY);
-    if (!raw) return null;
-    const candidate: unknown = JSON.parse(raw);
-    if (
-      typeof candidate !== "object" ||
-      candidate === null ||
-      (candidate as { storageVersion?: unknown }).storageVersion !==
-        STORAGE_VERSION
-    ) {
-      return null;
-    }
-    const result = (candidate as { result?: unknown }).result;
-    return isStoredResult(result) ? result : null;
-  } catch {
-    return null;
-  }
+  const loaded = loadLatestResultState(storage);
+  return loaded.status === "restored" ? loaded.result : null;
 }
 
 export function clearPersistedQuote(
   storage: StorageLike | null = getStorage(),
 ): boolean {
   sessionLatestResult = null;
+  clearSessionOverrides();
+  staleOverridesReset = false;
   if (!storage) return false;
   try {
     storage.removeItem(DRAFT_STORAGE_KEY);
     storage.removeItem(RESULT_STORAGE_KEY);
+    storage.removeItem(OVERRIDE_STORAGE_KEY);
     return true;
   } catch {
     return false;

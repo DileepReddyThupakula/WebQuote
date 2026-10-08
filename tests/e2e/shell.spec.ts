@@ -118,7 +118,7 @@ test("product shell is accessible and navigates to the quote workspace", async (
   expectNoBrowserErrors();
 });
 
-test("simple landing-page quote reaches the minimal result page", async ({
+test("simple landing-page quote reaches the results workspace", async ({
   page,
 }) => {
   const expectNoBrowserErrors = failOnBrowserErrors(page);
@@ -137,15 +137,92 @@ test("simple landing-page quote reaches the minimal result page", async ({
   await expect(page).toHaveURL(/\/quote\/result$/);
   await expect(
     page.getByRole("heading", {
-      name: "Your quote is ready",
+      name: "Recommended planning range based on your project scope and pricing preferences.",
     }),
   ).toBeVisible();
-  await expect(page.getByText("Quote details")).toBeVisible();
   await expect(
-    page.getByRole("link", { name: "Review inputs" }),
+    page.getByRole("heading", { name: "Recommended range" }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Minimum safe price", { exact: true }),
+  ).toBeVisible();
+  await expect(page.getByText("Complexity", { exact: true })).toBeVisible();
+  await expect(page.getByText("Risk / contingency")).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Client-ready preview" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Edit project details" }),
   ).toHaveAttribute("href", "/quote");
   await expect(page.locator("body")).not.toContainText("deterministic result");
   await expect(page.locator("body")).not.toContainText("Phase 5 handoff");
+  expectNoBrowserErrors();
+});
+
+test("results stay usable across viewports and commercial edits", async ({
+  page,
+}) => {
+  const expectNoBrowserErrors = failOnBrowserErrors(page);
+  await startFreshQuote(page);
+  await completeSimpleQuote(page);
+  await page.getByRole("button", { name: "Calculate quote" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Client-ready preview" }),
+  ).toBeVisible();
+  for (const width of [320, 375, 390, 768, 1024, 1440]) {
+    await page.setViewportSize({ width, height: width < 600 ? 844 : 900 });
+    await expectNoHorizontalOverflow(page);
+    await expect(
+      page.getByRole("heading", { name: "Recommended range" }),
+    ).toBeVisible();
+  }
+  const amount = page.getByRole("textbox", { name: /Final quoted amount/ });
+  await amount.fill("0");
+  await expect(page.getByText("Below your minimum safe price")).toBeVisible();
+  await expect(page.getByRole("article")).toBeVisible();
+  await page.reload();
+  await expect(page.getByText("Below your minimum safe price")).toBeVisible();
+  await page.getByRole("button", { name: "Restore", exact: true }).click();
+  await expect(page.getByText("Below your minimum safe price")).toHaveCount(0);
+  const milestone = page.locator("#milestone-0");
+  await milestone.fill("1");
+  await expect(
+    page.getByText(/Must equal 100% before client preview or copy/),
+  ).toBeVisible();
+  await expect(page.getByRole("article")).toHaveCount(0);
+  await page.getByRole("button", { name: "Restore milestones" }).click();
+  await expect(page.getByRole("article")).toBeVisible();
+  await page.getByText("How this was calculated · internal details").focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByText("Expected direct effort")).toBeVisible();
+  await page.getByRole("button", { name: "Copy client summary" }).focus();
+  await page.keyboard.press("Enter");
+  await expect(
+    page.getByText(
+      /Copied client summary|Select and copy the text above manually/,
+    ),
+  ).toBeVisible();
+  expectNoBrowserErrors();
+});
+
+test("empty and malformed saved results provide recovery", async ({ page }) => {
+  const expectNoBrowserErrors = failOnBrowserErrors(page);
+  await page.goto("/quote/result");
+  await page.evaluate(() => window.localStorage.clear());
+  await page.reload();
+  await expect(
+    page.getByRole("heading", { name: "No valid quote to show" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Build a quote" }),
+  ).toHaveAttribute("href", "/quote");
+  await page.evaluate(() =>
+    window.localStorage.setItem("webquote.latest-result.v1", "{"),
+  );
+  await page.reload();
+  await expect(
+    page.getByRole("heading", { name: "No valid quote to show" }),
+  ).toBeVisible();
   expectNoBrowserErrors();
 });
 
@@ -232,14 +309,34 @@ test("active draft survives refresh and reset clears it", async ({ page }) => {
   await startFreshQuote(page);
   await page.getByLabel("Pages / screens").fill("9");
   await continueStep(page);
-  await page.waitForTimeout(400);
+  const savedSnapshot = () =>
+    page.evaluate(() => {
+      const raw = window.localStorage.getItem("webquote.active-draft.v1");
+      if (!raw) return null;
+      const saved = JSON.parse(raw) as {
+        draft: { project: { pageCount: string } };
+        currentStep: string;
+      };
+      return {
+        pageCount: saved.draft.project.pageCount,
+        currentStep: saved.currentStep,
+      };
+    });
+  await expect
+    .poll(savedSnapshot)
+    .toEqual({ pageCount: "9", currentStep: "design" });
   await page.reload();
   await expect(
     page.getByRole("heading", { name: "Make the starting point clear" }),
   ).toBeVisible();
-  await page.waitForTimeout(400);
+  await expect
+    .poll(savedSnapshot)
+    .toEqual({ pageCount: "9", currentStep: "design" });
   await page.getByRole("link", { name: "Overview" }).click();
   await page.getByRole("link", { name: "Build a quote" }).click();
+  await expect
+    .poll(savedSnapshot)
+    .toEqual({ pageCount: "9", currentStep: "design" });
   await page.getByRole("button", { name: "Back" }).click();
   await expect(page.getByLabel("Pages / screens")).toHaveValue("9");
   await page.getByRole("button", { name: "Start a new quote" }).click();

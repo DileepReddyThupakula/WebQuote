@@ -1,6 +1,6 @@
 # WebQuote Architecture
 
-Status: Phase 4 guided quote builder implemented; Phase 5 result presentation remains intentionally deferred
+Status: Phase 5 results and commercial terms implemented on `phase-5-results`; Phase 6 PDF export deferred
 
 ## 1. Architectural goals
 
@@ -15,8 +15,8 @@ Status: Phase 4 guided quote builder implemented; Phase 5 result presentation re
 ## 2. Runtime topology
 
 V1 is a single Next.js App Router application. The diagram below is the target
-launch topology; Phase 4 implements the local guided builder and calculation
-handoff while later results/export layers remain deferred.
+launch topology; Phase 5 implements the local guided builder, results workspace,
+commercial overrides, client document, and clipboard fallback. PDF export remains deferred.
 
 ```text
 Browser
@@ -41,15 +41,14 @@ The pure engine is safe to run in the browser because it contains no secret rate
 |---|---|---|---|
 | `/` | Landing and process demonstration | Server Component-first | index, canonical |
 | `/quote` | Guided builder | Server page shell + client builder island | noindex |
-| `/quote/result` | Minimal calculated-result handoff | Server page shell + small client boundary | noindex |
+| `/quote/result` | Results, commercial terms, and client preview | Server page shell + client results island | noindex |
 | not-found | Recoverable 404 | Server UI | noindex behavior via status |
 
-In Phase 4, `/` remains a restrained product introduction and `/quote` is a
-server-rendered shell around the client-only guided builder. `/quote/result`
-only confirms the validated calculation handoff and deliberately does not render
-the Phase 5 results workspace. Builder and result routes never encode client
-information into query strings. The handoff restores the latest validated local
-result, or renders a recoverable empty state.
+`/` remains a restrained product introduction and `/quote` is a server-rendered
+shell around the client-only guided builder. `/quote/result` restores and
+validates the latest local result, then renders the Phase 5 workspace or a
+recoverable empty/corrupt state. Builder and result routes never encode client
+information into query strings.
 
 ### Phase 4 implemented subset
 
@@ -77,6 +76,19 @@ basis points, then calls the domain parser. `reducer.ts` owns navigation and
 completion state. `persistence.ts` owns versioned local envelopes, corruption
 recovery, and the latest-result handoff. No pricing formula or calibration value
 is duplicated in the builder.
+
+### Phase 5 implemented subset
+
+`features/quote-results/result-schema.ts` validates complete stored results and
+checks ledger invariants. `quote-builder/persistence.ts` writes result-envelope
+version 2 with deterministic result and config identities, while reading
+validated version 1 envelopes for compatibility. Historical valid results render
+from their stored ledger without recalculation. `features/quote-results/overrides.ts`
+validates a separate versioned commercial layer bound to the result identity.
+Changed inputs or config identity reset stale overrides with an explicit notice.
+`features/client-summary/document.ts` constructs `ClientQuoteDocumentV1` from
+the result plus approved overrides; the HTML preview and plain-text copy consume
+this document. No PDF adapter is implemented in Phase 5.
 
 Use route-level `loading.tsx` only where navigation can honestly wait. Use `error.tsx` as a Client Component for recoverable route failures and `global-error.tsx` only for root-layout failure. Do not simulate loading for a synchronous calculation.
 
@@ -277,7 +289,7 @@ Results contain plain objects and arrays only. Do not put `Date`, `Map`, class i
 
 ### 6.3 Commercial overrides
 
-`QuoteOverridesV1` stores only changed client-facing fields. It references the result model version and a deterministic input fingerprint. If the input fingerprint changes after recalculation, the override layer is considered stale and is reset after an explicit UI notice.
+`QuoteOverridesV1` stores only changed client-facing fields. It references the result model version, config identity, and a deterministic input fingerprint. If that identity changes after recalculation, the override layer is considered stale and is reset after an explicit UI notice.
 
 ### 6.4 Pricing configuration
 
@@ -287,7 +299,7 @@ The engine receives a validated config explicitly; it does not import loose cons
 
 ### 6.5 Client quote document and export contract
 
-`ClientQuoteDocumentV1` contains only client-presentable structured sections: header/identifiers, project type, amount/range, scope, exclusions, timeline, milestones, revision terms, change-request pricing, maintenance/support, optional notes, and optional approved calculation explanation.
+`ClientQuoteDocumentV1` contains only client-presentable structured sections: header/identifiers, project type, amount/range, scope, exclusions, timeline, milestones, revision terms, change-request pricing, maintenance/support, and optional notes. Phase 5 excludes calculation detail entirely; a future explicit export option requires its own approved client-readable explanation.
 
 `PdfExportOptionsV1` includes page size, amount presentation, and `includeCalculationDetails` (default `false`). `QuoteExporter` accepts the validated document/options and returns a typed download result or failure. Future logo/template/branding/cloud fields are not included in the V1 options.
 
@@ -348,14 +360,15 @@ Use a reducer or explicit state machine rather than unrelated component state. S
 - client-facing overrides; and
 - storage status.
 
-Proposed local-storage envelopes:
+Local-storage records:
 
 ```text
-webquote:draft:v1
-webquote:latest-result:v1
+webquote.active-draft.v1
+webquote.latest-result.v1 (envelope version 2; version 1 remains readable)
+webquote.commercial-overrides.v1
 ```
 
-Each envelope contains `schemaVersion`, `savedAt`, and `payload`. Save after meaningful edits with a short debounce and flush on step navigation. Storage errors do not block calculation. Invalid or unsupported payloads are quarantined in memory, not rewritten, and the user is offered a clear reset.
+The draft uses `storageVersion: 1`, draft/step/completion state, and creation/update timestamps. The result uses `storageVersion: 2`, a validated immutable `QuoteResultV1`, result identity, pricing config identity, and a save timestamp; the valid version 1 result envelope remains readable. Overrides use `storageVersion: 1`, `overrideVersion`, result/model/config identity, and validated client-facing values. Draft typing is debounced and step navigation is saved immediately. Storage errors do not block calculation. Invalid or unsupported payloads are not reinterpreted, and the user is offered recovery.
 
 No client/project data is logged to analytics or server logs in V1. Do not store clipboard text separately.
 
@@ -469,4 +482,3 @@ Additional confirmed PDF direction:
 - The quote shell owns a route-level `noindex`, `nofollow`, and `nocache` policy.
 - Webpack is used for `dev` and `build`: Turbopack's CSS worker attempted to bind an internal port and failed with `EPERM` in this execution environment, while the supported Webpack build passed.
 - No PDF renderer was evaluated or installed. The already approved renderer-neutral document/export boundary prevents an architectural lock-in, so dependency selection remains correctly deferred to Phase 6.
-

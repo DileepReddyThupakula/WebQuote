@@ -399,20 +399,45 @@ export function QuoteBuilder() {
     }
 
     const nextStep = getNextStep(state.currentStep);
-    if (nextStep)
+    if (nextStep) {
+      flushDraftAtStep(nextStep, [
+        ...new Set([...state.completedSteps, state.currentStep]),
+      ]);
       dispatch({ type: "complete-step", step: state.currentStep, nextStep });
+    }
   }
 
   function handleBack() {
     const previous = getPreviousStep(state.currentStep);
-    if (previous) dispatch({ type: "go-to-step", step: previous });
+    if (previous) {
+      flushDraftAtStep(previous, state.completedSteps);
+      dispatch({ type: "go-to-step", step: previous });
+    }
   }
 
   function goToStep(step: BuilderStepId) {
+    flushDraftAtStep(step, state.completedSteps);
     dispatch({ type: "go-to-step", step });
     window.requestAnimationFrame(() =>
       document.getElementById("quote-step-heading")?.focus(),
     );
+  }
+
+  function flushDraftAtStep(
+    step: BuilderStepId,
+    completedSteps: readonly BuilderStepId[],
+  ) {
+    if (
+      !savePersistedDraft({
+        draft: state.draft,
+        currentStep: step,
+        completedSteps: [...completedSteps],
+      })
+    ) {
+      setStorageNotice(
+        "Local draft storage is unavailable. Your current session is still usable.",
+      );
+    }
   }
 
   function resetQuote() {

@@ -44,10 +44,8 @@ describe("quote builder persistence", () => {
         project: { projectType: "landing", pageCount: 1, currency: "INR" },
       },
     };
-    expect(saveLatestResult(result)).toBe(true);
-    expect(window.localStorage.getItem(RESULT_STORAGE_KEY)).toContain(
-      "quote-result-v1",
-    );
+    expect(saveLatestResult(result)).toBe(false);
+    expect(window.localStorage.getItem(RESULT_STORAGE_KEY)).toBeNull();
     expect(loadLatestResult()).toBeNull();
     expect(clearPersistedQuote()).toBe(true);
     expect(window.localStorage.getItem(DRAFT_STORAGE_KEY)).toBeNull();
