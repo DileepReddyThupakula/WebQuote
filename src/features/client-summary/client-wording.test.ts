@@ -6,6 +6,7 @@ import {
   formatRevisionPolicy,
   formatSupportDays,
   formatTimeline,
+  formatTimelineSummary,
   scopeLines,
 } from "@/features/client-summary/document";
 import {
@@ -40,6 +41,28 @@ describe("client wording", () => {
       formatTimeline({ ...base, lowWeeks: 2, expectedWeeks: 3, highWeeks: 4 }),
     ).toBe("2–4 weeks");
   });
+
+  it.each([
+    [{ lowWeeks: 2, expectedWeeks: 2, highWeeks: 2 }, "2 weeks"],
+    [{ lowWeeks: 1, expectedWeeks: 1, highWeeks: 1 }, "1 week"],
+    [
+      { lowWeeks: 2, expectedWeeks: 3, highWeeks: 4 },
+      "3 weeks expected (2–4 weeks planned)",
+    ],
+    [
+      { lowWeeks: 1, expectedWeeks: 1, highWeeks: 2 },
+      "1 week expected (1–2 weeks planned)",
+    ],
+  ])(
+    "summarises %j as %s without repeating equal values",
+    (weeks, expected) => {
+      const timeline = { ...results[0]!.timeline, ...weeks };
+      const summary = formatTimelineSummary(timeline);
+      expect(summary).toBe(expected);
+      expect(summary).not.toMatch(/(\d)–\1\b/);
+      expect(summary).not.toMatch(/planned\)?.*planned/);
+    },
+  );
 
   it.each([
     [0, 2, "No revision rounds are included. An additional round is $20.00."],

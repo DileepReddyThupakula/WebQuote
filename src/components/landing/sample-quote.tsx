@@ -5,19 +5,12 @@ import {
 } from "@/features/client-summary/document";
 
 const SHOWN_EXCLUSIONS = 5;
-const SHOWN_CHANGE_REQUESTS = new Set([
-  "Additional page",
-  "Additional revision round",
-  "Standard integration",
-]);
 
 export function SampleQuote({ document }: { document: ClientQuoteDocumentV1 }) {
   const money = (minor: number) => formatMoney(minor, document.currency);
   const shownExclusions = document.exclusions.slice(0, SHOWN_EXCLUSIONS);
   const hiddenExclusions = document.exclusions.length - shownExclusions.length;
-  const changeRequests = document.changeRequests.filter((item) =>
-    SHOWN_CHANGE_REQUESTS.has(item.label),
-  );
+  const changeRequests = document.changeRequests;
 
   return (
     <article

@@ -157,7 +157,7 @@ describe("Phase 5 result and client document", () => {
     expect(clientSummaryText(document)).toContain(`Expected delivery: ${text}`);
   });
 
-  it("uses explicit professional change-request labels", () => {
+  it("uses explicit professional change-request labels and omits rate-derived ones", () => {
     const document = createClientQuoteDocument(
       complex,
       emptyOverrides(complex),
@@ -168,8 +168,6 @@ describe("Phase 5 result and client document", () => {
       "Standard integration",
       "Third-party API",
       "Custom API",
-      "Urgent change",
-      "Hourly out-of-scope work",
     ]);
     const text = clientSummaryText(document);
     expect(text).toContain("Third-party API: from");

@@ -1,4 +1,5 @@
 import {
+  formatAmountInput,
   formatMoney,
   parseMoneyText,
 } from "@/features/client-summary/document";
@@ -37,5 +38,43 @@ describe("formatMoney", () => {
       12_345_600,
     );
     expect(parseMoneyText("1,23,456.50", "INR")).toBe(12_345_650);
+  });
+});
+
+describe("formatAmountInput", () => {
+  it.each([
+    [5_400_000, "INR", "54,000"],
+    [12_345_600, "INR", "1,23,456"],
+    [12_345_650, "INR", "1,23,456.50"],
+    [0, "INR", "0"],
+    [5_400_000, "USD", "54,000"],
+    [123_456_700, "USD", "1,234,567"],
+    [5_400_050, "USD", "54,000.50"],
+    [5_400_005, "GBP", "54,000.05"],
+    [100_000, "EUR", "1,000"],
+    [99, "EUR", "0.99"],
+  ] as const)("shows %i minor %s as %s", (minor, currency, text) => {
+    expect(formatAmountInput(minor, currency)).toBe(text);
+    expect(text).not.toMatch(/\.00$/);
+  });
+
+  it("reads back to the same amount, so editing never changes the value", () => {
+    for (const currency of ["INR", "USD", "GBP", "EUR"] as const) {
+      for (const minor of [
+        0, 1, 99, 100, 150_000, 5_400_000, 12_345_650, 987_654_321,
+      ]) {
+        expect(
+          parseMoneyText(formatAmountInput(minor, currency), currency),
+        ).toBe(minor);
+      }
+    }
+  });
+
+  it("still accepts typed decimals and grouping", () => {
+    expect(parseMoneyText("54000.5", "USD")).toBe(5_400_050);
+    expect(parseMoneyText("54,000", "INR")).toBe(5_400_000);
+    expect(parseMoneyText("54000.50", "INR")).toBe(5_400_050);
+    expect(parseMoneyText("54000.555", "INR")).toBeNull();
+    expect(parseMoneyText("abc", "INR")).toBeNull();
   });
 });

@@ -22,6 +22,7 @@ import {
 import { auditSamples } from "../../fixtures/quotes/audit-samples";
 import { quoteFixtures } from "../../fixtures/quotes/v1";
 import { extractPdfText } from "../../helpers/pdf-text";
+import { findRateDerivedLeaks } from "../../helpers/rate-derived";
 
 const fonts: PdfFonts = {
   regular: new Uint8Array(readFileSync("public/fonts/pdf/Geist-Regular.ttf")),
@@ -194,6 +195,7 @@ describe("client quote PDF confidentiality", () => {
             false,
           );
         }
+        expect(findRateDerivedLeaks(text, result, priced)).toEqual([]);
         expect(text).not.toMatch(
           /margin|minimum safe|contingency|hourly value|hourly rate|effort|safe price|floor|complexity|overhead|risk/i,
         );

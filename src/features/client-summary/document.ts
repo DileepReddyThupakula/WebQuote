@@ -47,6 +47,26 @@ export function formatMoney(minor: number, currency: CurrencyCode): string {
   return `${currencySymbols[currency]}${whole}.${fraction}`;
 }
 
+/**
+ * An amount for an editable field: the currency's normal digit grouping, no
+ * symbol, and no trailing ".00" for whole numbers (54,000 or 1,23,456).
+ * Fractions appear only when non-zero (54,000.50). `parseMoneyText` reads this
+ * back, so a formatted value round-trips exactly.
+ */
+export function formatAmountInput(
+  minor: number,
+  currency: CurrencyCode,
+): string {
+  const scale = 10 ** exponent[currency];
+  const wholeValue = Math.floor(minor / scale);
+  const fraction = String(minor % scale).padStart(exponent[currency], "0");
+  const whole =
+    currency === "INR"
+      ? groupIndian(String(wholeValue))
+      : wholeValue.toLocaleString("en-US");
+  return /^0*$/.test(fraction) ? whole : `${whole}.${fraction}`;
+}
+
 export function parseMoneyText(
   value: string,
   currency: CurrencyCode,
@@ -150,6 +170,19 @@ const exclusionLabels: Record<string, string> = {
   "catalogue-data-entry": "Catalogue data entry",
   "ongoing-maintenance": "Ongoing maintenance",
 };
+/**
+ * Change requests a client may see. Urgent-change and hourly out-of-scope
+ * prices are derived from the freelancer's hourly rate and margin, so they stay
+ * internal. Add a code here only if its price cannot reveal the rate.
+ */
+export const CLIENT_CHANGE_ORDER_CODES: ReadonlySet<ChangeOrderCode> = new Set([
+  "additionalPage",
+  "additionalRevisionRound",
+  "standardIntegration",
+  "thirdPartyApi",
+  "customApi",
+]);
+
 const changeOrderLabels: Record<ChangeOrderCode, string> = {
   additionalPage: "Additional page",
   additionalRevisionRound: "Additional revision round",
@@ -166,6 +199,18 @@ export function formatTimeline(timeline: QuoteResultV1["timeline"]): string {
   if (lowWeeks === highWeeks)
     return `${lowWeeks} ${lowWeeks === 1 ? "week" : "weeks"}`;
   return `${lowWeeks}–${highWeeks} weeks`;
+}
+
+/**
+ * The internal results summary. When the planned range is a single value it
+ * reads once ("2 weeks"); otherwise it keeps the expected point beside the range.
+ */
+export function formatTimelineSummary(
+  timeline: QuoteResultV1["timeline"],
+): string {
+  const { lowWeeks, expectedWeeks, highWeeks } = timeline;
+  if (lowWeeks === highWeeks) return formatTimeline(timeline);
+  return `${expectedWeeks} ${expectedWeeks === 1 ? "week" : "weeks"} expected (${lowWeeks}–${highWeeks} weeks planned)`;
 }
 
 /** The post-launch support sentence shown to the client. */
@@ -333,10 +378,12 @@ export function createClientQuoteDocument(
         values.extraRevisionAmountMinor ??
         result.revisions.extraRoundPrice.recommendedMinor,
     },
-    changeRequests: result.changeOrders.map((order) => ({
-      label: changeOrderLabels[order.code] ?? "Additional work",
-      priceMinor: order.price.recommendedMinor,
-    })),
+    changeRequests: result.changeOrders
+      .filter((order) => CLIENT_CHANGE_ORDER_CODES.has(order.code))
+      .map((order) => ({
+        label: changeOrderLabels[order.code] ?? "Additional work",
+        priceMinor: order.price.recommendedMinor,
+      })),
     maintenance,
     support: formatSupportDays(result.input.delivery.postLaunchSupportDays),
     ...(values.clientNotes ? { clientNotes: values.clientNotes } : {}),

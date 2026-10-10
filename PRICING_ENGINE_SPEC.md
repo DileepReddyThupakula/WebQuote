@@ -506,6 +506,8 @@ Every change-order item states that final pricing depends on written scope. Thir
 
 Suggested change-order ranges also include the current testing and project-management rates; they are not raw build-hours-only prices.
 
+Client-facing output (preview, copied summary, PDF) lists only the per-page, per-revision-round, standard-integration, third-party-API and custom-API prices. The urgent-change and hourly out-of-scope prices are computed directly from the freelancer's hourly value and margin, so they remain on the internal results screen and are never shown to a client.
+
 ## 11. Maintenance
 
 Maintenance is a separately priced monthly planning range and is never silently included in the project quote.

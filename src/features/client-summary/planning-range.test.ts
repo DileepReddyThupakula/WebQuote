@@ -15,6 +15,7 @@ import {
   updateOverride,
 } from "@/features/quote-results/overrides";
 
+import { findRateDerivedLeaks } from "../../../tests/helpers/rate-derived";
 import { auditSamples } from "../../../tests/fixtures/quotes/audit-samples";
 import { quoteFixtures } from "../../../tests/fixtures/quotes/v1";
 
@@ -184,6 +185,23 @@ describe("client output confidentiality", () => {
             present(text, formatMoney(pricing.hourlyValueMinor, currency)),
           ).toBe(false);
         }
+        expect(
+          findRateDerivedLeaks(
+            text,
+            result,
+            new Set([
+              document.price.quoteMinor,
+              document.price.lowMinor,
+              document.price.highMinor,
+              ...document.milestones.map((item) => item.amountMinor),
+              ...document.changeRequests.map((item) => item.priceMinor),
+              document.revisions.extraRoundPriceMinor,
+            ]),
+          ),
+        ).toEqual([]);
+        expect(document.changeRequests.map((item) => item.label)).not.toContain(
+          "Hourly out-of-scope work",
+        );
         expect(text).not.toMatch(
           /margin|minimum safe|contingency|hourly value|hourly rate|effort|safe price|floor|complexity|overhead/i,
         );
