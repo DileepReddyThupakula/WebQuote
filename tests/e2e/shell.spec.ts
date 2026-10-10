@@ -232,7 +232,7 @@ test("client planning range starts at the quoted amount and hides the floor", as
 
   await page
     .getByLabel(/Client price presentation/)
-    .selectOption({ label: "Planning range (from your quote upward)" });
+    .selectOption({ label: "Planning range" });
   const preview = page.getByRole("article");
   await expect(preview).toContainText(`${calculated}–`);
   await expect(preview).toContainText(

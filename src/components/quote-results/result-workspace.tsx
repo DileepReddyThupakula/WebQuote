@@ -533,10 +533,12 @@ export function ResultWorkspace() {
                 value={custom.amountPresentation ?? "amount"}
               >
                 <option value="amount">Proposed amount</option>
-                <option value="range">
-                  Planning range (from your quote upward)
-                </option>
+                <option value="range">Planning range</option>
               </select>
+              <p className="text-sm text-ink-muted">
+                A planning range starts at your final quoted amount and goes
+                upward. It never shows your minimum safe price.
+              </p>
             </div>
             <div className="grid gap-2">
               <label className="font-semibold" htmlFor="delivery-statement">
