@@ -17,4 +17,36 @@ describe("HomePage", () => {
       "/quote",
     );
   });
+
+  it("explains the outcome, shows a finished sample quote, the steps, and privacy", () => {
+    render(<HomePage />);
+
+    for (const name of [
+      "What you get from each quote",
+      "See a finished quote",
+      "How it works",
+      "Your work stays on your device",
+    ]) {
+      expect(
+        screen.getByRole("heading", { level: 2, name }),
+      ).toBeInTheDocument();
+    }
+    expect(screen.getAllByRole("listitem").length).toBeGreaterThan(5);
+    const sample = screen.getByRole("article", {
+      name: "Sample client quote",
+    });
+    expect(sample).toHaveTextContent("Included scope");
+    expect(sample).toHaveTextContent("Payment plan");
+  });
+
+  it("offers one build-a-quote call to action and no invented social proof", () => {
+    render(<HomePage />);
+    expect(screen.getAllByRole("link", { name: "Build a quote" })).toHaveLength(
+      1,
+    );
+    expect(document.body).not.toHaveTextContent(
+      /testimonial|trusted by|customers|\d+\+? (users|freelancers|agencies)/i,
+    );
+    expect(document.body).not.toHaveTextContent(/minimum safe|hourly value:/i);
+  });
 });
