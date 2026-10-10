@@ -242,7 +242,7 @@ test("client planning range starts at the quoted amount and hides the floor", as
 
   const amount = page.getByRole("textbox", { name: /Final quoted amount/ });
   await amount.fill("123456");
-  await expect(preview).toContainText("₹123,456.00–");
+  await expect(preview).toContainText("₹1,23,456–");
   await expect(preview).not.toContainText(floor);
   expectNoBrowserErrors();
 });

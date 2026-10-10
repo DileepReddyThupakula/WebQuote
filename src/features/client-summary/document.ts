@@ -27,10 +27,23 @@ const exponent: Record<CurrencyCode, number> = {
   EUR: 2,
 };
 
+/** Indian digit grouping: the last three digits, then groups of two (1,23,456). */
+function groupIndian(digits: string): string {
+  if (digits.length <= 3) return digits;
+  const head = digits.slice(0, -3).replace(/\B(?=(\d{2})+$)/g, ",");
+  return `${head},${digits.slice(-3)}`;
+}
+
 export function formatMoney(minor: number, currency: CurrencyCode): string {
   const scale = 10 ** exponent[currency];
-  const whole = Math.floor(minor / scale).toLocaleString("en-US");
+  const wholeValue = Math.floor(minor / scale);
   const fraction = String(minor % scale).padStart(exponent[currency], "0");
+  if (currency === "INR") {
+    // Rupee amounts read as whole rupees unless there are paise.
+    const whole = groupIndian(String(wholeValue));
+    return `${currencySymbols[currency]}${whole}${/^0+$/.test(fraction) ? "" : `.${fraction}`}`;
+  }
+  const whole = wholeValue.toLocaleString("en-US");
   return `${currencySymbols[currency]}${whole}.${fraction}`;
 }
 
