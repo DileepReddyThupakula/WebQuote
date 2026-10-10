@@ -1,5 +1,6 @@
 import {
   formatMoney,
+  formatRevisionPolicy,
   type ClientQuoteDocumentV1,
 } from "@/features/client-summary/document";
 
@@ -103,8 +104,11 @@ export function SampleQuote({ document }: { document: ClientQuoteDocumentV1 }) {
           Revisions and changes
         </h4>
         <p className="mt-2 text-sm leading-6 text-ink-muted">
-          {document.revisions.includedRounds} revision rounds are included. An
-          extra round is {money(document.revisions.extraRoundPriceMinor)}.
+          {formatRevisionPolicy(
+            document.revisions.includedRounds,
+            document.revisions.extraRoundPriceMinor,
+            document.currency,
+          )}
         </p>
         <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-6 text-ink-muted">
           {changeRequests.map((item) => (
@@ -114,7 +118,7 @@ export function SampleQuote({ document }: { document: ClientQuoteDocumentV1 }) {
           ))}
         </ul>
         <p className="mt-2 text-sm leading-6 text-ink-muted">
-          {document.support}. {document.maintenance}.
+          {document.support} {document.maintenance}
         </p>
       </section>
     </article>

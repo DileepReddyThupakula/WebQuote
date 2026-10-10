@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { ResultWorkspace } from "@/components/quote-results/result-workspace";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
@@ -28,6 +29,7 @@ export default function QuoteResultPage() {
           </Container>
         </Section>
       </main>
+      <SiteFooter />
     </>
   );
 }

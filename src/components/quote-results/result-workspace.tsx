@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { Button, buttonClassName } from "@/components/ui/button";
+import { PdfExportPanel } from "@/components/quote-results/pdf-export-panel";
 import { Notice } from "@/components/ui/notice";
 import type { CurrencyCode, QuoteResultV1 } from "@/domain/quote/types";
 import {
@@ -12,9 +13,11 @@ import {
   exclusionLines,
   formatHours,
   formatMoney,
+  formatRevisionPolicy,
   parseMoneyText,
   scopeLines,
 } from "@/features/client-summary/document";
+import { feedbackHref } from "@/lib/site";
 import { copyClientSummary } from "@/features/client-summary/clipboard";
 import { PLANNING_RANGE_NOTE } from "@/features/client-summary/planning-range";
 import {
@@ -250,6 +253,16 @@ export function ResultWorkspace() {
           These figures are planning guidance from your inputs and
           WebQuote&apos;s documented effort assumptions, not guaranteed market
           prices.
+        </p>
+        <p className="text-sm text-ink-muted">
+          Something wrong or unclear in this quote?{" "}
+          <a
+            className="font-semibold text-accent underline underline-offset-4"
+            href={feedbackHref}
+          >
+            Send feedback
+          </a>
+          . Please do not include client details.
         </p>
       </header>
       {notice ? (
@@ -801,9 +814,11 @@ export function ResultWorkspace() {
               <PreviewList heading="Exclusions" items={document.exclusions} />
               <p>Expected delivery: {document.timeline}</p>
               <p>
-                Revision policy: {document.revisions.includedRounds} rounds
-                included; additional round{" "}
-                {money(document.revisions.extraRoundPriceMinor)}.
+                {formatRevisionPolicy(
+                  document.revisions.includedRounds,
+                  document.revisions.extraRoundPriceMinor,
+                  document.currency,
+                )}
               </p>
               <div>
                 <h4 className="font-semibold">Payment milestones</h4>
@@ -826,8 +841,8 @@ export function ResultWorkspace() {
                   ))}
                 </ul>
               </div>
-              <p>Maintenance: {document.maintenance}</p>
-              <p>Launch support: {document.support}</p>
+              <p>{document.maintenance}</p>
+              <p>{document.support}</p>
               {document.clientNotes ? (
                 <p>Notes: {document.clientNotes}</p>
               ) : null}
@@ -856,6 +871,7 @@ export function ResultWorkspace() {
                 </Button>
                 <span role="status">{copyStatus}</span>
               </div>
+              <PdfExportPanel document={document} />
             </div>
           </>
         )}

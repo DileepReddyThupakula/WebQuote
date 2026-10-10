@@ -66,6 +66,19 @@ describe("ResultWorkspace", () => {
     },
   );
 
+  it("offers mailto feedback links and no feedback form", async () => {
+    saveLatestResult(quotes[1]!);
+    render(<ResultWorkspace />);
+    await screen.findByRole("article");
+    const links = screen.getAllByRole("link", { name: "Send feedback" });
+    expect(links.length).toBeGreaterThan(0);
+    for (const link of links)
+      expect(link).toHaveAttribute(
+        "href",
+        "mailto:founder@webquote.in?subject=WebQuote%20feedback",
+      );
+  });
+
   it("marks and resets a below-floor quote without blocking the client preview", async () => {
     const user = userEvent.setup();
     const quote = quotes[1]!;
