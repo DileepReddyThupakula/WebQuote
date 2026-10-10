@@ -1,11 +1,11 @@
 import type { MetadataRoute } from "next";
 
-import { getPublicSiteUrl } from "@/lib/site";
+import { getIndexableSiteUrl } from "@/lib/site";
 
 export default function robots(): MetadataRoute.Robots {
-  const publicSiteUrl = getPublicSiteUrl();
+  const indexableSiteUrl = getIndexableSiteUrl();
 
-  if (!publicSiteUrl) {
+  if (!indexableSiteUrl) {
     return {
       rules: {
         userAgent: "*",
@@ -14,12 +14,13 @@ export default function robots(): MetadataRoute.Robots {
     };
   }
 
+  // Private pages such as /quote/result are not disallowed here: crawlers must
+  // be able to fetch them to see their noindex robots meta tag.
   return {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/quote", "/quote/"],
     },
-    sitemap: new URL("/sitemap.xml", publicSiteUrl).toString(),
+    sitemap: new URL("/sitemap.xml", indexableSiteUrl).toString(),
   };
 }
