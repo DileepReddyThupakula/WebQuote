@@ -38,6 +38,8 @@ const effortLabels: Record<string, string> = {
   complexityAdditionalEffort: "Complexity-added effort",
   testingOverhead: "Testing overhead",
   projectManagementOverhead: "Project management overhead",
+  includedRevisionEffort: "Included revision rounds above the baseline",
+  postLaunchSupportEffort: "Post-launch support (placeholder estimate)",
   riskContingency: "Risk contingency",
 };
 const priceLabels: Record<string, string> = {

@@ -10,7 +10,7 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 
-import { calculateQuote, PRICING_CONFIG_V1 } from "@/domain/quote";
+import { ACTIVE_PRICING_CONFIG, calculateQuote } from "@/domain/quote";
 import type { FeatureKey, IntegrationKey } from "@/domain/quote/types";
 import { Button } from "@/components/ui/button";
 import { CheckboxField } from "@/components/ui/checkbox-field";
@@ -381,7 +381,7 @@ export function QuoteBuilder() {
         focusFirstError(finalErrors);
         return;
       }
-      const outcome = calculateQuote(mapped.input, PRICING_CONFIG_V1);
+      const outcome = calculateQuote(mapped.input, ACTIVE_PRICING_CONFIG);
       if (!outcome.ok) {
         const calculationErrors = Object.fromEntries(
           outcome.issues.map((item) => [
@@ -933,6 +933,7 @@ function DeliveryStep({
           id={fieldId("delivery.includedRevisionRounds")}
           inputMode="numeric"
           label="Included revision rounds"
+          description="Up to 2 rounds are already part of the planning allowance. Each round above 2 adds time and price."
           max={5}
           min={0}
           onChange={(event) =>
@@ -970,6 +971,7 @@ function DeliveryStep({
         <SelectField
           id={fieldId("delivery.postLaunchSupportDays")}
           label="Post-launch support"
+          description="A support window adds a time allowance to the quote. These hours are placeholder estimates."
           onChange={(event) =>
             update("delivery.postLaunchSupportDays", eventValue(event))
           }

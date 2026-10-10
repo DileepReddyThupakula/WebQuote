@@ -153,6 +153,8 @@ export type EffortLedgerItem = Readonly<{
     | "complexityAdditionalEffort"
     | "testingOverhead"
     | "projectManagementOverhead"
+    | "includedRevisionEffort"
+    | "postLaunchSupportEffort"
     | "riskContingency";
   amountQh: QuarterHours;
   configPath: string;
@@ -232,6 +234,16 @@ export type QuoteResultV1 = Readonly<{
     complexityAdditional: EffortPoints;
     testingOverhead: EffortPoints;
     projectManagementOverhead: EffortPoints;
+    /**
+     * Effort for committed terms (pricing model v2+). Included in `planned`
+     * and `delivery`; absent on results calculated under model v1.
+     */
+    includedWork?: Readonly<{
+      baselineRounds: number;
+      revisionRounds: EffortPoints;
+      postLaunchSupport: EffortPoints;
+      supportCalibration: "uncalibrated-placeholder" | "calibrated";
+    }>;
     planned: EffortPoints;
     contingencyQh: QuarterHours;
     delivery: EffortPoints;

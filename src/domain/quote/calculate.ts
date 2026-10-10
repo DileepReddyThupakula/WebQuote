@@ -10,6 +10,7 @@ import {
   subtractEffort,
   sumEffortLines,
 } from "@/domain/quote/effort";
+import { calculateIncludedWork } from "@/domain/quote/included-work";
 import { assertQuoteResultInvariants } from "@/domain/quote/invariants";
 import { calculateMaintenance } from "@/domain/quote/maintenance";
 import { calculateMilestones } from "@/domain/quote/milestones";
@@ -64,7 +65,15 @@ export function calculateQuote(
       complexity.level,
       config,
     );
-    const planned = addEffort(beforeManagement, projectManagementOverhead);
+    const plannedBuild = addEffort(beforeManagement, projectManagementOverhead);
+    const revisions = calculateRevisions(lineItems, normalized, config);
+    const includedWork = calculateIncludedWork(revisions, normalized, config);
+    const planned = includedWork
+      ? addEffort(
+          addEffort(plannedBuild, includedWork.revisionRounds),
+          includedWork.postLaunchSupport,
+        )
+      : plannedBuild;
     const { risk, delivery } = calculateRiskAndDelivery(
       planned,
       normalized,
@@ -75,8 +84,16 @@ export function calculateQuote(
       delivery,
       config,
     );
-    const timeline = calculateTimeline(delivery, normalized, config);
-    const revisions = calculateRevisions(lineItems, normalized, config);
+    // Post-launch support happens after delivery, so it does not lengthen the
+    // build timeline. Included revision rounds are delivered inside the project.
+    const timelineEffort = includedWork
+      ? calculateRiskAndDelivery(
+          addEffort(plannedBuild, includedWork.revisionRounds),
+          normalized,
+          config,
+        ).delivery
+      : delivery;
+    const timeline = calculateTimeline(timelineEffort, normalized, config);
     const changeOrders = calculateChangeOrders(
       normalized,
       complexity,
@@ -113,6 +130,20 @@ export function calculateQuote(
         amountQh: projectManagementOverhead.expectedQh,
         configPath: `overhead.projectManagement.ratesByComplexityBp.${complexity.level}`,
       },
+      ...(includedWork
+        ? ([
+            {
+              code: "includedRevisionEffort",
+              amountQh: includedWork.revisionRounds.expectedQh,
+              configPath: "includedWork.revisionRounds.baselineRounds",
+            },
+            {
+              code: "postLaunchSupportEffort",
+              amountQh: includedWork.postLaunchSupport.expectedQh,
+              configPath: `includedWork.postLaunchSupport.byDays.${normalized.delivery.postLaunchSupportDays}`,
+            },
+          ] as const)
+        : []),
       {
         code: "riskContingency",
         amountQh: risk.contingencyQh,
@@ -135,6 +166,7 @@ export function calculateQuote(
         complexityAdditional,
         testingOverhead,
         projectManagementOverhead,
+        ...(includedWork ? { includedWork } : {}),
         planned,
         contingencyQh: risk.contingencyQh,
         delivery,
