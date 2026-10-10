@@ -6,6 +6,10 @@ import type {
   QuoteResultV1,
 } from "@/domain/quote/types";
 import {
+  clientPlanningRange,
+  PLANNING_RANGE_NOTE,
+} from "@/features/client-summary/planning-range";
+import {
   milestonesPublishable,
   type QuoteOverridesV1,
 } from "@/features/quote-results/overrides";
@@ -215,6 +219,7 @@ export function createClientQuoteDocument(
   const maintenance = result.maintenance.included
     ? `${values.maintenanceOffer ?? `${result.maintenance.tier} monthly maintenance`}${maintenancePrice === undefined ? "" : `: ${formatMoney(maintenancePrice, result.pricing.currency)}/month`}`
     : (values.maintenanceOffer ?? "No ongoing maintenance included");
+  const planningRange = clientPlanningRange(quoteMinor, result.pricing);
   const candidate = {
     documentVersion: "client-quote-document-v1" as const,
     currency: result.pricing.currency,
@@ -224,8 +229,8 @@ export function createClientQuoteDocument(
     price: {
       presentation: values.amountPresentation ?? "amount",
       quoteMinor,
-      lowMinor: result.pricing.rangeLowMinor,
-      highMinor: result.pricing.rangeHighMinor,
+      lowMinor: planningRange.lowMinor,
+      highMinor: planningRange.highMinor,
     },
     scope: values.includedScope ?? scopeLines(result),
     exclusions: values.exclusions ?? exclusionLines(result),
@@ -260,6 +265,7 @@ export function clientSummaryText(document: ClientQuoteDocumentV1): string {
     document.price.presentation === "range"
       ? `Planning range: ${money(document.price.lowMinor)}–${money(document.price.highMinor)}`
       : `Proposed quote: ${money(document.price.quoteMinor)}`,
+    document.price.presentation === "range" ? PLANNING_RANGE_NOTE : null,
     `Expected delivery: ${document.timeline}`,
     "Included scope:",
     ...document.scope.map((item) => `- ${item}`),
