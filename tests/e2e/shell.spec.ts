@@ -38,6 +38,8 @@ async function startFreshQuote(page: Page) {
   await page.evaluate(() => window.localStorage.clear());
   await page.goto("/");
   await page.goto("/quote");
+  // Clicks sent before React hydrates are silently lost under load.
+  await page.waitForLoadState("networkidle");
 }
 
 async function continueStep(page: Page) {
@@ -508,8 +510,15 @@ for (const viewport of [
     );
     await expectNoHorizontalOverflow(page);
 
-    for (let index = 0; index < 5; index += 1) {
-      await continueStep(page);
+    const progress = page.getByRole("progressbar");
+    for (let step = 2; step <= 6; step += 1) {
+      await expect(async () => {
+        const current = Number(await progress.getAttribute("aria-valuenow"));
+        if (current < step) await continueStep(page);
+        await expect(progress).toHaveAttribute("aria-valuenow", String(step), {
+          timeout: 1500,
+        });
+      }).toPass({ timeout: 15_000 });
     }
     await expect(
       page.getByRole("heading", {
