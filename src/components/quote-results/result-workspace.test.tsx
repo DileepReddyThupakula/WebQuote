@@ -66,6 +66,35 @@ describe("ResultWorkspace", () => {
     },
   );
 
+  it.each([
+    [{ lowWeeks: 2, expectedWeeks: 2, highWeeks: 2 }, "2 weeks", "2 weeks"],
+    [
+      { lowWeeks: 2, expectedWeeks: 3, highWeeks: 4 },
+      "3 weeks expected (2–4 weeks planned)",
+      "2–4 weeks",
+    ],
+  ])(
+    "shows an equal planned timeline once and an unequal one as a range",
+    async (weeks, summary, statement) => {
+      const quote = {
+        ...quotes[1]!,
+        timeline: { ...quotes[1]!.timeline, ...weeks },
+      };
+      saveLatestResult(quote);
+      render(<ResultWorkspace />);
+      const label = await screen.findByText("Expected timeline");
+      expect(label.nextElementSibling).toHaveTextContent(summary);
+      expect(label.nextElementSibling?.textContent).not.toMatch(/(\d)–\1\b/);
+      expect(screen.getByLabelText(/Delivery statement/)).toHaveAttribute(
+        "placeholder",
+        statement,
+      );
+      expect(screen.getByRole("article")).toHaveTextContent(
+        `Expected delivery: ${statement}`,
+      );
+    },
+  );
+
   it("offers mailto feedback links and no feedback form", async () => {
     saveLatestResult(quotes[1]!);
     render(<ResultWorkspace />);

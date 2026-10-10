@@ -14,6 +14,8 @@ import {
   formatHours,
   formatMoney,
   formatRevisionPolicy,
+  formatTimeline,
+  formatTimelineSummary,
   parseMoneyText,
   scopeLines,
 } from "@/features/client-summary/document";
@@ -303,7 +305,7 @@ export function ResultWorkspace() {
           />
           <Metric
             label="Expected timeline"
-            value={`${result.timeline.expectedWeeks} weeks (${result.timeline.lowWeeks}–${result.timeline.highWeeks} planned)`}
+            value={formatTimelineSummary(result.timeline)}
           />
           <Metric
             label="Complexity"
@@ -570,7 +572,7 @@ export function ResultWorkspace() {
                 onChange={(event) =>
                   update("deliveryStatement", event.target.value || undefined)
                 }
-                placeholder={`${result.timeline.lowWeeks}–${result.timeline.highWeeks} weeks`}
+                placeholder={formatTimeline(result.timeline)}
                 value={custom.deliveryStatement ?? ""}
               />
               <Button

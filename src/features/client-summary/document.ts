@@ -168,6 +168,18 @@ export function formatTimeline(timeline: QuoteResultV1["timeline"]): string {
   return `${lowWeeks}–${highWeeks} weeks`;
 }
 
+/**
+ * The internal results summary. When the planned range is a single value it
+ * reads once ("2 weeks"); otherwise it keeps the expected point beside the range.
+ */
+export function formatTimelineSummary(
+  timeline: QuoteResultV1["timeline"],
+): string {
+  const { lowWeeks, expectedWeeks, highWeeks } = timeline;
+  if (lowWeeks === highWeeks) return formatTimeline(timeline);
+  return `${expectedWeeks} ${expectedWeeks === 1 ? "week" : "weeks"} expected (${lowWeeks}–${highWeeks} weeks planned)`;
+}
+
 /** The post-launch support sentence shown to the client. */
 export function formatSupportDays(days: number): string {
   if (days <= 0) return "No post-launch support is included.";
