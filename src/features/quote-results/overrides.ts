@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { ACTIVE_PRICING_CONFIG } from "@/domain/quote";
 import type { QuoteResultV1 } from "@/domain/quote/types";
 import {
   OVERRIDE_STORAGE_KEY,
@@ -10,6 +11,10 @@ import {
   setSessionOverrides,
 } from "@/features/quote-results/override-session";
 
+/** Same bounds the builder and the engine enforce; the editor must not exceed them. */
+export const REVISION_ROUNDS_LIMITS = ACTIVE_PRICING_CONFIG.validation
+  .revisionRounds as Readonly<{ min: number; max: number }>;
+
 const valuesSchema = z.strictObject({
   quoteAmountMinor: z.number().int().safe().nonnegative().optional(),
   amountPresentation: z.enum(["amount", "range"]).optional(),
@@ -17,7 +22,13 @@ const valuesSchema = z.strictObject({
   milestonePercentBp: z
     .array(z.number().int().safe().min(0).max(10_000))
     .optional(),
-  includedRevisionRounds: z.number().int().safe().min(0).max(20).optional(),
+  includedRevisionRounds: z
+    .number()
+    .int()
+    .safe()
+    .min(REVISION_ROUNDS_LIMITS.min)
+    .max(REVISION_ROUNDS_LIMITS.max)
+    .optional(),
   extraRevisionAmountMinor: z.number().int().safe().nonnegative().optional(),
   maintenanceOffer: z.string().trim().max(240).optional(),
   maintenanceAmountMinor: z.number().int().safe().nonnegative().optional(),
@@ -87,7 +98,8 @@ function matches(result: QuoteResultV1, candidate: QuoteOverridesV1): boolean {
 }
 
 export type OverrideLoadResult = Readonly<{
-  status: "restored" | "empty" | "corrupt" | "stale" | "unavailable";
+  status:
+    "restored" | "adjusted" | "empty" | "corrupt" | "stale" | "unavailable";
   overrides: QuoteOverridesV1;
 }>;
 
@@ -103,12 +115,30 @@ export function loadOverrides(
   try {
     const raw = storage.getItem(OVERRIDE_STORAGE_KEY);
     if (!raw) return { status: "empty", overrides: empty };
-    const parsed = envelopeSchema.safeParse(JSON.parse(raw));
+    const stored: unknown = JSON.parse(raw);
+    // Older builds let the editor save up to 20 rounds. Drop only that one
+    // out-of-range term instead of discarding every saved override.
+    let adjusted = false;
+    const storedValues = (stored as { values?: Record<string, unknown> })
+      ?.values;
+    if (
+      storedValues &&
+      typeof storedValues === "object" &&
+      typeof storedValues.includedRevisionRounds === "number" &&
+      storedValues.includedRevisionRounds > REVISION_ROUNDS_LIMITS.max
+    ) {
+      delete storedValues.includedRevisionRounds;
+      adjusted = true;
+    }
+    const parsed = envelopeSchema.safeParse(stored);
     if (!parsed.success) return { status: "corrupt", overrides: empty };
     if (!matches(result, parsed.data))
       return { status: "stale", overrides: empty };
     setSessionOverrides(parsed.data);
-    return { status: "restored", overrides: parsed.data };
+    return {
+      status: adjusted ? "adjusted" : "restored",
+      overrides: parsed.data,
+    };
   } catch {
     return { status: "corrupt", overrides: empty };
   }

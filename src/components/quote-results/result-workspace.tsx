@@ -26,6 +26,7 @@ import {
   emptyOverrides,
   loadOverrides,
   milestoneTotalBp,
+  REVISION_ROUNDS_LIMITS,
   saveOverrides,
   updateOverride,
   type QuoteOverridesV1,
@@ -118,6 +119,10 @@ export function ResultWorkspace() {
       if (consumeStaleOverrideNotice() || overrideLoad.status === "stale")
         setNotice(
           "The project changed, so previous custom terms were reset. Review the new quote before sharing it.",
+        );
+      else if (overrideLoad.status === "adjusted")
+        setNotice(
+          `A saved revision-round count above ${REVISION_ROUNDS_LIMITS.max} was removed. The calculated value is shown.`,
         );
       else if (overrideLoad.status === "corrupt")
         setNotice(
@@ -637,7 +642,7 @@ export function ResultWorkspace() {
                     id="override-revision-rounds"
                     type="number"
                     min={0}
-                    max={20}
+                    max={REVISION_ROUNDS_LIMITS.max}
                     value={
                       custom.includedRevisionRounds ??
                       result.revisions.includedRounds
@@ -646,8 +651,8 @@ export function ResultWorkspace() {
                       const value = Number(event.target.value);
                       if (
                         Number.isSafeInteger(value) &&
-                        value >= 0 &&
-                        value <= 20
+                        value >= REVISION_ROUNDS_LIMITS.min &&
+                        value <= REVISION_ROUNDS_LIMITS.max
                       )
                         update(
                           "includedRevisionRounds",
