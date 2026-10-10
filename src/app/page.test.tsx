@@ -49,4 +49,12 @@ describe("HomePage", () => {
     );
     expect(document.body).not.toHaveTextContent(/minimum safe|hourly value:/i);
   });
+
+  it("links to feedback by email in the footer", () => {
+    render(<HomePage />);
+    expect(screen.getByRole("link", { name: "Send feedback" })).toHaveAttribute(
+      "href",
+      "mailto:founder@webquote.in?subject=WebQuote%20feedback",
+    );
+  });
 });

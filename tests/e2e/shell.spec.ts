@@ -346,6 +346,27 @@ test("downloads a client PDF built in the browser without internal pricing", asy
   expectNoBrowserErrors();
 });
 
+test("feedback is a plain mailto link on the landing and results pages", async ({
+  page,
+}) => {
+  const expectNoBrowserErrors = failOnBrowserErrors(page);
+  const expectedHref = "mailto:founder@webquote.in?subject=WebQuote%20feedback";
+  await page.goto("/");
+  await expect(
+    page.getByRole("link", { name: "Send feedback" }),
+  ).toHaveAttribute("href", expectedHref);
+
+  await startFreshQuote(page);
+  await completeSimpleQuote(page);
+  await page.getByRole("button", { name: "Calculate quote" }).click();
+  await expect(page).toHaveURL(/\/quote\/result$/);
+  const links = page.getByRole("link", { name: "Send feedback" });
+  await expect(links).toHaveCount(2);
+  for (const index of [0, 1])
+    await expect(links.nth(index)).toHaveAttribute("href", expectedHref);
+  expectNoBrowserErrors();
+});
+
 test("empty and malformed saved results provide recovery", async ({ page }) => {
   const expectNoBrowserErrors = failOnBrowserErrors(page);
   await page.goto("/quote/result");

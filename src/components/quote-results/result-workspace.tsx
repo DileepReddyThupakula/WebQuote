@@ -17,6 +17,7 @@ import {
   parseMoneyText,
   scopeLines,
 } from "@/features/client-summary/document";
+import { feedbackHref } from "@/lib/site";
 import { copyClientSummary } from "@/features/client-summary/clipboard";
 import { PLANNING_RANGE_NOTE } from "@/features/client-summary/planning-range";
 import {
@@ -252,6 +253,16 @@ export function ResultWorkspace() {
           These figures are planning guidance from your inputs and
           WebQuote&apos;s documented effort assumptions, not guaranteed market
           prices.
+        </p>
+        <p className="text-sm text-ink-muted">
+          Something wrong or unclear in this quote?{" "}
+          <a
+            className="font-semibold text-accent underline underline-offset-4"
+            href={feedbackHref}
+          >
+            Send feedback
+          </a>
+          . Please do not include client details.
         </p>
       </header>
       {notice ? (

@@ -18,6 +18,13 @@ export const siteConfig = {
 } as const;
 
 /**
+ * Plain mailto link for feedback. No form, no tracking: it only opens the
+ * visitor's own email program. Never put quote details in the subject or body.
+ */
+export const feedbackEmail = "founder@webquote.in";
+export const feedbackHref = `mailto:${feedbackEmail}?subject=${encodeURIComponent("WebQuote feedback")}`;
+
+/**
  * Public, indexable pages. Add new public pages here: the sitemap and the
  * per-page metadata both read this list. Private pages (for example
  * /quote/result) must not be listed and must set `robots: noindex`.

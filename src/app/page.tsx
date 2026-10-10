@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SampleQuote } from "@/components/landing/sample-quote";
 import { buttonClassName } from "@/components/ui/button";
@@ -187,13 +188,7 @@ export default function HomePage() {
           </Container>
         </Section>
       </main>
-      <footer className="border-t border-border py-6">
-        <Container>
-          <p className="text-sm text-ink-muted">
-            WebQuote · Clearer website project quotes
-          </p>
-        </Container>
-      </footer>
+      <SiteFooter />
     </>
   );
 }
