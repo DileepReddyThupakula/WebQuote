@@ -279,4 +279,6 @@ const v1Input = {
   },
 } as const satisfies PricingConfigV1Input;
 
+/** The raw v1 calibration, exported so later versions can extend it without copying numbers. */
+export const PRICING_CONFIG_V1_INPUT = v1Input;
 export const PRICING_CONFIG_V1 = parsePricingConfigV1(v1Input);

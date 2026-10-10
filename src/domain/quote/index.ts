@@ -5,7 +5,10 @@ export {
 } from "@/domain/quote/arithmetic";
 export { calculateQuote } from "@/domain/quote/calculate";
 export {
+  ACTIVE_PRICING_CONFIG,
   createPricingConfigRegistry,
+  PRICING_CONFIG_REGISTRY,
+  PRICING_CONFIG_V2,
   parsePricingConfigV1,
   PRICING_CONFIG_V1,
   type PricingConfigV1,

@@ -12,6 +12,12 @@ export function assertQuoteResultInvariants(result: QuoteResultV1): void {
     result.effort.complexityAdditional,
     result.effort.testingOverhead,
     result.effort.projectManagementOverhead,
+    ...(result.effort.includedWork
+      ? [
+          result.effort.includedWork.revisionRounds,
+          result.effort.includedWork.postLaunchSupport,
+        ]
+      : []),
     result.effort.planned,
     result.effort.delivery,
   ];

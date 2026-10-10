@@ -93,6 +93,17 @@ const resultSchema = z
       complexityAdditional: points,
       testingOverhead: points,
       projectManagementOverhead: points,
+      includedWork: z
+        .object({
+          baselineRounds: nonnegative,
+          revisionRounds: points,
+          postLaunchSupport: points,
+          supportCalibration: z.enum([
+            "uncalibrated-placeholder",
+            "calibrated",
+          ]),
+        })
+        .optional(),
       planned: points,
       contingencyQh: nonnegative,
       delivery: points,

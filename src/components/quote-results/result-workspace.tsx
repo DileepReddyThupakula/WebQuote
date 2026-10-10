@@ -16,6 +16,7 @@ import {
   scopeLines,
 } from "@/features/client-summary/document";
 import { copyClientSummary } from "@/features/client-summary/clipboard";
+import { PLANNING_RANGE_NOTE } from "@/features/client-summary/planning-range";
 import {
   consumeStaleOverrideNotice,
   loadLatestResultState,
@@ -37,6 +38,8 @@ const effortLabels: Record<string, string> = {
   complexityAdditionalEffort: "Complexity-added effort",
   testingOverhead: "Testing overhead",
   projectManagementOverhead: "Project management overhead",
+  includedRevisionEffort: "Included revision rounds above the baseline",
+  postLaunchSupportEffort: "Post-launch support (placeholder estimate)",
   riskContingency: "Risk contingency",
 };
 const priceLabels: Record<string, string> = {
@@ -262,6 +265,10 @@ export function ResultWorkspace() {
         <p className="break-words text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
           {money(result.pricing.rangeLowMinor)}–
           {money(result.pricing.rangeHighMinor)}
+        </p>
+        <p className="text-sm text-ink-muted">
+          This is your private range, from your minimum safe price to the high
+          end. A client-facing planning range starts at the amount you quote.
         </p>
         <p className="text-lg">
           Recommended quote{" "}
@@ -528,6 +535,10 @@ export function ResultWorkspace() {
                 <option value="amount">Proposed amount</option>
                 <option value="range">Planning range</option>
               </select>
+              <p className="text-sm text-ink-muted">
+                A planning range starts at your final quoted amount and goes
+                upward. It never shows your minimum safe price.
+              </p>
             </div>
             <div className="grid gap-2">
               <label className="font-semibold" htmlFor="delivery-statement">
@@ -775,6 +786,11 @@ export function ResultWorkspace() {
                     ? `${money(document.price.lowMinor)}–${money(document.price.highMinor)}`
                     : money(document.price.quoteMinor)}
                 </p>
+                {document.price.presentation === "range" ? (
+                  <p className="mt-1 text-sm text-ink-muted">
+                    {PLANNING_RANGE_NOTE}
+                  </p>
+                ) : null}
               </header>
               <PreviewList heading="Included scope" items={document.scope} />
               <PreviewList heading="Exclusions" items={document.exclusions} />

@@ -120,7 +120,7 @@ export const pricingConfigV1Schema = z
     identity: z.strictObject({
       configId: z.string().regex(/^[a-z0-9-]+$/),
       configVersion: z.string().regex(/^\d+\.\d+\.\d+$/),
-      modelVersion: z.literal("webquote-pricing-v1"),
+      modelVersion: z.enum(["webquote-pricing-v1", "webquote-pricing-v2"]),
       effectiveAt: z.iso.datetime(),
       inputVersion: z.literal("quote-input-v1"),
       resultVersion: z.literal("quote-result-v1"),
@@ -277,6 +277,22 @@ export const pricingConfigV1Schema = z
       elevatedByRisk: z.enum(riskLevels),
       elevatedByUrgency: z.array(z.enum(["priority", "rush"])).min(1),
     }),
+    /**
+     * Effort for terms the freelancer commits to in the quote. Absent in
+     * pricing model v1, which priced neither; present from v2 onward.
+     */
+    includedWork: z
+      .strictObject({
+        revisionRounds: z.strictObject({
+          /** Rounds the foundation ranges already cover. Fewer rounds are not discounted. */
+          baselineRounds: safeInteger,
+        }),
+        postLaunchSupport: z.strictObject({
+          calibration: z.enum(["uncalibrated-placeholder", "calibrated"]),
+          byDays: z.record(z.enum(["0", "14", "30", "60"]), effortRangeSchema),
+        }),
+      })
+      .optional(),
     warnings: z.strictObject({
       integrationDiscoveryThreshold: positiveSafeInteger,
       severalCustomApisThreshold: positiveSafeInteger,
@@ -355,6 +371,27 @@ export const pricingConfigV1Schema = z
           code: "custom",
           message: "Complexity bands must cover consecutive score boundaries.",
           path: ["complexity", "bands", index + 1, "minScore"],
+        });
+      }
+    }
+    if (config.includedWork) {
+      const configured = Object.keys(
+        config.includedWork.postLaunchSupport.byDays,
+      ).sort();
+      const supported = config.validation.supportDays.map(String).sort();
+      if (configured.join(",") !== supported.join(",")) {
+        context.addIssue({
+          code: "custom",
+          message:
+            "Post-launch support effort must be defined for every supported duration.",
+          path: ["includedWork", "postLaunchSupport", "byDays"],
+        });
+      }
+      if (config.includedWork.postLaunchSupport.byDays["0"]?.highQh) {
+        context.addIssue({
+          code: "custom",
+          message: "Zero days of support must add no effort.",
+          path: ["includedWork", "postLaunchSupport", "byDays", "0"],
         });
       }
     }

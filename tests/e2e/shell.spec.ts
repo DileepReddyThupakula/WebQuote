@@ -205,6 +205,48 @@ test("results stay usable across viewports and commercial edits", async ({
   expectNoBrowserErrors();
 });
 
+test("client planning range starts at the quoted amount and hides the floor", async ({
+  page,
+}) => {
+  const expectNoBrowserErrors = failOnBrowserErrors(page);
+  await startFreshQuote(page);
+  await completeSimpleQuote(page);
+  await page.getByRole("button", { name: "Calculate quote" }).click();
+  await expect(page).toHaveURL(/\/quote\/result$/);
+
+  const floor = (
+    await page
+      .locator("dt", { hasText: "Minimum safe price" })
+      .locator("xpath=following-sibling::dd")
+      .first()
+      .innerText()
+  ).trim();
+  const calculated = (
+    await page
+      .getByText(/^Calculated: /)
+      .first()
+      .innerText()
+  )
+    .replace("Calculated: ", "")
+    .trim();
+
+  await page
+    .getByLabel(/Client price presentation/)
+    .selectOption({ label: "Planning range" });
+  const preview = page.getByRole("article");
+  await expect(preview).toContainText(`${calculated}–`);
+  await expect(preview).toContainText(
+    "The upper figure applies only if the scope grows.",
+  );
+  if (floor !== calculated) await expect(preview).not.toContainText(floor);
+
+  const amount = page.getByRole("textbox", { name: /Final quoted amount/ });
+  await amount.fill("123456");
+  await expect(preview).toContainText("₹123,456.00–");
+  await expect(preview).not.toContainText(floor);
+  expectNoBrowserErrors();
+});
+
 test("empty and malformed saved results provide recovery", async ({ page }) => {
   const expectNoBrowserErrors = failOnBrowserErrors(page);
   await page.goto("/quote/result");
