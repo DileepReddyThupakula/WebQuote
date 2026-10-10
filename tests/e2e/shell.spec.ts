@@ -329,8 +329,11 @@ test("downloads a client PDF built in the browser without internal pricing", asy
   expect(pdf.text).toContain("Landing page");
   expect(pdf.text).toContain(quoted.replace(/\.00$/, ""));
   if (floor !== quoted) expect(pdf.text).not.toContain(floor);
+  await expect(page.getByRole("article")).not.toContainText(
+    /hourly out-of-scope|urgent change/i,
+  );
   expect(pdf.text).not.toMatch(
-    /margin|minimum safe|contingency|hourly value|hourly rate|effort|floor/i,
+    /margin|minimum safe|contingency|hourly value|hourly rate|hourly out-of-scope|urgent change|effort|floor/i,
   );
   await expect(
     page.getByRole("status").filter({ hasText: "Downloaded" }),

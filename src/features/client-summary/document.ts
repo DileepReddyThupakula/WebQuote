@@ -150,6 +150,19 @@ const exclusionLabels: Record<string, string> = {
   "catalogue-data-entry": "Catalogue data entry",
   "ongoing-maintenance": "Ongoing maintenance",
 };
+/**
+ * Change requests a client may see. Urgent-change and hourly out-of-scope
+ * prices are derived from the freelancer's hourly rate and margin, so they stay
+ * internal. Add a code here only if its price cannot reveal the rate.
+ */
+export const CLIENT_CHANGE_ORDER_CODES: ReadonlySet<ChangeOrderCode> = new Set([
+  "additionalPage",
+  "additionalRevisionRound",
+  "standardIntegration",
+  "thirdPartyApi",
+  "customApi",
+]);
+
 const changeOrderLabels: Record<ChangeOrderCode, string> = {
   additionalPage: "Additional page",
   additionalRevisionRound: "Additional revision round",
@@ -345,10 +358,12 @@ export function createClientQuoteDocument(
         values.extraRevisionAmountMinor ??
         result.revisions.extraRoundPrice.recommendedMinor,
     },
-    changeRequests: result.changeOrders.map((order) => ({
-      label: changeOrderLabels[order.code] ?? "Additional work",
-      priceMinor: order.price.recommendedMinor,
-    })),
+    changeRequests: result.changeOrders
+      .filter((order) => CLIENT_CHANGE_ORDER_CODES.has(order.code))
+      .map((order) => ({
+        label: changeOrderLabels[order.code] ?? "Additional work",
+        priceMinor: order.price.recommendedMinor,
+      })),
     maintenance,
     support: formatSupportDays(result.input.delivery.postLaunchSupportDays),
     ...(values.clientNotes ? { clientNotes: values.clientNotes } : {}),

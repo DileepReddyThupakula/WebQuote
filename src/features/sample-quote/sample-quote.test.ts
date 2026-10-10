@@ -13,6 +13,7 @@ import {
   SAMPLE_QUOTE_INPUT,
 } from "@/features/sample-quote/sample-quote";
 
+import { findRateDerivedLeaks } from "../../../tests/helpers/rate-derived";
 import { auditSamples } from "../../../tests/fixtures/quotes/audit-samples";
 
 function engineResult(): QuoteResultV1 {
@@ -74,6 +75,25 @@ describe("landing-page sample quote", () => {
       const formatted = formatMoney(hidden, pricing.currency);
       expect(text).not.toContain(formatted);
     }
+    expect(
+      findRateDerivedLeaks(
+        text,
+        result,
+        new Set([
+          document.price.quoteMinor,
+          ...document.milestones.map((item) => item.amountMinor),
+          ...document.changeRequests.map((item) => item.priceMinor),
+          document.revisions.extraRoundPriceMinor,
+        ]),
+      ),
+    ).toEqual([]);
+    expect(document.changeRequests.map((item) => item.label)).toEqual([
+      "Additional page",
+      "Additional revision round",
+      "Standard integration",
+      "Third-party API",
+      "Custom API",
+    ]);
     expect(text).not.toMatch(
       /margin|minimum safe|contingency|hourly value|hourly rate|effort|floor|overhead/i,
     );
