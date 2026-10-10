@@ -13,6 +13,7 @@ import {
   exclusionLines,
   formatHours,
   formatMoney,
+  formatRevisionPolicy,
   parseMoneyText,
   scopeLines,
 } from "@/features/client-summary/document";
@@ -802,9 +803,11 @@ export function ResultWorkspace() {
               <PreviewList heading="Exclusions" items={document.exclusions} />
               <p>Expected delivery: {document.timeline}</p>
               <p>
-                Revision policy: {document.revisions.includedRounds} rounds
-                included; additional round{" "}
-                {money(document.revisions.extraRoundPriceMinor)}.
+                {formatRevisionPolicy(
+                  document.revisions.includedRounds,
+                  document.revisions.extraRoundPriceMinor,
+                  document.currency,
+                )}
               </p>
               <div>
                 <h4 className="font-semibold">Payment milestones</h4>
@@ -827,8 +830,8 @@ export function ResultWorkspace() {
                   ))}
                 </ul>
               </div>
-              <p>Maintenance: {document.maintenance}</p>
-              <p>Launch support: {document.support}</p>
+              <p>{document.maintenance}</p>
+              <p>{document.support}</p>
               {document.clientNotes ? (
                 <p>Notes: {document.clientNotes}</p>
               ) : null}

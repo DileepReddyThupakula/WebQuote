@@ -147,7 +147,7 @@ describe("Phase 5 result and client document", () => {
       lowWeeks: 2,
       expectedWeeks: 3,
       highWeeks: 4,
-      text: "2–4 weeks (expected 3 weeks)",
+      text: "2–4 weeks",
     },
   ])("formats the client timeline as $text", ({ text, ...weeks }) => {
     const quote = { ...typical, timeline: { ...typical.timeline, ...weeks } };
@@ -177,10 +177,17 @@ describe("Phase 5 result and client document", () => {
   });
 
   it.each([
-    { days: 0, phrase: "0 days of post-launch support" },
-    { days: 1, phrase: "1 day of post-launch support" },
-    { days: 14, phrase: "14 days of post-launch support" },
-  ])("formats delivery scope with $days support days", ({ days, phrase }) => {
+    { days: 0, phrase: "No post-launch support is included." },
+    {
+      days: 1,
+      phrase: "1 day of post-launch support to fix defects in the agreed work.",
+    },
+    {
+      days: 14,
+      phrase:
+        "14 days of post-launch support to fix defects in the agreed work.",
+    },
+  ])("states $days support days once, in a sentence", ({ days, phrase }) => {
     const quote = {
       ...typical,
       input: {
@@ -196,15 +203,15 @@ describe("Phase 5 result and client document", () => {
           : item,
       ),
     };
-    const delivery = scopeLines(quote).find((line) =>
-      line.includes("handles deployment"),
-    );
-    expect(delivery).toBe(
-      `Essential testing; the freelancer handles deployment; ${phrase}`,
-    );
+    const lines = scopeLines(quote);
+    expect(lines).toContain("Essential testing before launch");
+    expect(lines).toContain("Deployment handled by the developer");
+    expect(lines.join(" ")).not.toMatch(/post-launch|support/i);
     const document = createClientQuoteDocument(quote, emptyOverrides(quote))!;
     expect(document.support).toBe(phrase);
-    expect(clientSummaryText(document)).toContain(`Launch support: ${phrase}`);
+    expect(clientSummaryText(document)).toContain(
+      `Support after launch: ${phrase}`,
+    );
   });
 
   it("keeps working-draft context out of client output unless a project label is approved", () => {

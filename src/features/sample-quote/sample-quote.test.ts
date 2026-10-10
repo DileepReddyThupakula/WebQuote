@@ -44,6 +44,24 @@ describe("landing-page sample quote", () => {
     expect(document.currency).toBe("INR");
   });
 
+  it("reads as natural sentences, with the delivery estimate stated once", () => {
+    const document = buildSampleQuote();
+    expect(document.scope).toEqual([
+      "Business website with 5 pages",
+      "Design based on a ready-made template",
+      "Page content supplied by you",
+      "Essential testing before launch",
+      "Deployment handled by the developer",
+      "Contact form",
+      "Analytics integration",
+    ]);
+    expect(document.timeline).toBe("2–3 weeks");
+    expect(document.support).toBe(
+      "14 days of post-launch support to fix defects in the agreed work.",
+    );
+    expect(document.maintenance).toBe("No ongoing maintenance is included.");
+  });
+
   it("never exposes the floor, rate, margin or hours", () => {
     const result = engineResult();
     const document = buildSampleQuote();

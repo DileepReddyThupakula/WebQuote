@@ -81,25 +81,57 @@ export const projectTypeLabels: Record<
 
 const featureLabels: Record<string, string> = {
   contactForm: "Contact form",
-  blogCms: "Blog or CMS",
+  blogCms: "Blog with a content management system",
   search: "Site search",
-  authentication: "Authentication",
+  authentication: "User login",
   userAccounts: "User accounts",
   adminDashboard: "Admin dashboard",
-  booking: "Booking",
-  payments: "Payments",
-  ecommerce: "Ecommerce",
-  membership: "Membership",
-  subscriptions: "Subscriptions",
+  booking: "Booking system",
+  payments: "Online payments",
+  ecommerce: "Online store",
+  membership: "Members-only area",
+  subscriptions: "Subscription billing",
 };
-const integrationLabels: Record<string, string> = {
-  crm: "CRM",
-  emailMarketing: "Email marketing",
-  analytics: "Analytics",
-  maps: "Maps",
-  otherStandard: "Standard integration",
-  thirdPartyApi: "Third-party API",
-  customApi: "Custom API",
+const integrationLabels: Record<string, { one: string; many: string }> = {
+  crm: { one: "CRM integration", many: "CRM integrations" },
+  emailMarketing: {
+    one: "Email marketing integration",
+    many: "email marketing integrations",
+  },
+  analytics: { one: "Analytics integration", many: "analytics integrations" },
+  maps: { one: "Maps integration", many: "maps integrations" },
+  otherStandard: {
+    one: "Standard third-party integration",
+    many: "standard third-party integrations",
+  },
+  thirdPartyApi: {
+    one: "Third-party API integration",
+    many: "third-party API integrations",
+  },
+  customApi: {
+    one: "Custom API integration",
+    many: "custom API integrations",
+  },
+};
+const designLines: Record<string, string> = {
+  provided: "Built from the design you provide",
+  template: "Design based on a ready-made template",
+  custom: "A custom visual design",
+  fullUx: "Full UX and visual design",
+};
+const contentLines: Record<string, string> = {
+  provided: "Page content supplied by you",
+  formatting: "Your content formatted and placed on the pages",
+  copywriting: "Page copy written for the project",
+};
+const migrationLines: Record<string, string> = {
+  light: "Light migration of your existing content",
+  standard: "Standard migration of your existing content",
+  complex: "Complex migration of your existing content or data",
+};
+const testingLines: Record<string, string> = {
+  essential: "Essential testing before launch",
+  enhanced: "Enhanced testing before launch",
 };
 const exclusionLabels: Record<string, string> = {
   "outside-approved-scope": "Work outside the agreed scope",
@@ -113,7 +145,7 @@ const exclusionLabels: Record<string, string> = {
   copywriting: "Copywriting",
   "asset-sourcing-licensing": "Asset sourcing and licensing",
   "content-data-migration": "Content or data migration",
-  deployment: "Deployment by the freelancer",
+  deployment: "Deployment of the finished site",
   "custom-integrations": "Custom integrations",
   "catalogue-data-entry": "Catalogue data entry",
   "ongoing-maintenance": "Ongoing maintenance",
@@ -128,36 +160,74 @@ const changeOrderLabels: Record<ChangeOrderCode, string> = {
   hourlyOutOfScope: "Hourly out-of-scope work",
 };
 
+/** The delivery estimate, stated once: "3 weeks" or "2–4 weeks". */
 export function formatTimeline(timeline: QuoteResultV1["timeline"]): string {
-  const { lowWeeks, expectedWeeks, highWeeks } = timeline;
+  const { lowWeeks, highWeeks } = timeline;
   if (lowWeeks === highWeeks)
     return `${lowWeeks} ${lowWeeks === 1 ? "week" : "weeks"}`;
-  return `${lowWeeks}–${highWeeks} weeks (expected ${expectedWeeks} ${expectedWeeks === 1 ? "week" : "weeks"})`;
+  return `${lowWeeks}–${highWeeks} weeks`;
 }
 
-function formatSupportDays(days: number): string {
-  return `${days} ${days === 1 ? "day" : "days"} of post-launch support`;
+/** The post-launch support sentence shown to the client. */
+export function formatSupportDays(days: number): string {
+  if (days <= 0) return "No post-launch support is included.";
+  return `${days} ${days === 1 ? "day" : "days"} of post-launch support to fix defects in the agreed work.`;
+}
+
+/** The revision policy sentence shown to the client. */
+export function formatRevisionPolicy(
+  includedRounds: number,
+  extraRoundMinor: number,
+  currency: CurrencyCode,
+): string {
+  const included =
+    includedRounds === 0
+      ? "No revision rounds are included."
+      : `${includedRounds} ${includedRounds === 1 ? "revision round is" : "revision rounds are"} included.`;
+  return `${included} An additional round is ${formatMoney(extraRoundMinor, currency)}.`;
+}
+
+function pageUnit(projectType: string, count: number): string {
+  const unit = projectType === "webApp" ? "screen" : "page";
+  return `${count} ${unit}${count === 1 ? "" : "s"}`;
 }
 
 export function scopeLines(result: QuoteResultV1): string[] {
-  return result.scope.map(({ code, details }) => {
+  return result.scope.flatMap(({ code, details }): string[] => {
     if (code === "project")
-      return `${projectTypeLabels[result.input.project.projectType]} with ${details.pageCount} ${Number(details.pageCount) === 1 ? "page or screen" : "pages or screens"}`;
+      return [
+        `${projectTypeLabels[result.input.project.projectType]} with ${pageUnit(result.input.project.projectType, Number(details.pageCount))}`,
+      ];
     if (code === "design")
-      return `Design starting point: ${String(details.mode)
-        .replace(/([A-Z])/g, " $1")
-        .toLowerCase()}`;
-    if (code === "content")
-      return `Content: ${String(details.mode)}${details.assetSourcing ? ", with asset sourcing" : ""}${details.migration !== "none" ? `; ${details.migration} migration` : ""}`;
+      return [designLines[String(details.mode)] ?? "Design work"];
+    if (code === "content") {
+      const lines = [contentLines[String(details.mode)] ?? "Content work"];
+      if (details.assetSourcing)
+        lines.push("Images and other assets sourced for the pages");
+      const migration = migrationLines[String(details.migration)];
+      if (migration) lines.push(migration);
+      return lines;
+    }
     if (code === "delivery")
-      return `${String(details.testingLevel).replace(/^./, (letter) => letter.toUpperCase())} testing; the ${details.deploymentOwner === "freelancer" ? "freelancer" : "client"} handles deployment; ${formatSupportDays(Number(details.postLaunchSupportDays))}`;
+      return [
+        testingLines[String(details.testingLevel)] ?? "Testing before launch",
+        details.deploymentOwner === "freelancer"
+          ? "Deployment handled by the developer"
+          : "Deployment handled by you",
+      ];
     if (code === "maintenance")
-      return `${details.tier} maintenance recommendation`;
+      return [
+        `Optional ${String(details.tier)} monthly maintenance, priced separately`,
+      ];
     if (code.startsWith("feature-"))
-      return featureLabels[code.slice(8)] ?? "Selected feature";
-    if (code.startsWith("integration-"))
-      return `${integrationLabels[code.slice(12)] ?? "Integration"} × ${details.count}`;
-    return "Included project item";
+      return [featureLabels[code.slice(8)] ?? "Selected feature"];
+    if (code.startsWith("integration-")) {
+      const label = integrationLabels[code.slice(12)];
+      const count = Number(details.count);
+      if (!label) return ["Integration"];
+      return [count === 1 ? label.one : `${count} ${label.many}`];
+    }
+    return ["Included project item"];
   });
 }
 
@@ -229,9 +299,16 @@ export function createClientQuoteDocument(
   const maintenancePrice =
     values.maintenanceAmountMinor ??
     result.maintenance.monthlyPrice?.recommendedMinor;
+  const tierName = result.maintenance.tier.replace(/^./, (letter) =>
+    letter.toUpperCase(),
+  );
   const maintenance = result.maintenance.included
-    ? `${values.maintenanceOffer ?? `${result.maintenance.tier} monthly maintenance`}${maintenancePrice === undefined ? "" : `: ${formatMoney(maintenancePrice, result.pricing.currency)}/month`}`
-    : (values.maintenanceOffer ?? "No ongoing maintenance included");
+    ? values.maintenanceOffer
+      ? `${values.maintenanceOffer}${maintenancePrice === undefined ? "" : `: ${formatMoney(maintenancePrice, result.pricing.currency)} per month`}`
+      : maintenancePrice === undefined
+        ? `${tierName} monthly maintenance is available, billed separately.`
+        : `${tierName} monthly maintenance is available for ${formatMoney(maintenancePrice, result.pricing.currency)} per month, billed separately.`
+    : (values.maintenanceOffer ?? "No ongoing maintenance is included.");
   const planningRange = clientPlanningRange(quoteMinor, result.pricing);
   const candidate = {
     documentVersion: "client-quote-document-v1" as const,
@@ -284,7 +361,7 @@ export function clientSummaryText(document: ClientQuoteDocumentV1): string {
     ...document.scope.map((item) => `- ${item}`),
     "Exclusions:",
     ...document.exclusions.map((item) => `- ${item}`),
-    `Included revisions: ${document.revisions.includedRounds} rounds; additional round: ${money(document.revisions.extraRoundPriceMinor)}`,
+    `Revisions: ${formatRevisionPolicy(document.revisions.includedRounds, document.revisions.extraRoundPriceMinor, document.currency)}`,
     "Payment milestones:",
     ...document.milestones.map(
       (item) =>
@@ -295,7 +372,7 @@ export function clientSummaryText(document: ClientQuoteDocumentV1): string {
       (item) => `- ${item.label}: from ${money(item.priceMinor)}`,
     ),
     `Maintenance: ${document.maintenance}`,
-    `Launch support: ${document.support}`,
+    `Support after launch: ${document.support}`,
     document.clientNotes ? `Notes: ${document.clientNotes}` : null,
   ]
     .filter((line): line is string => line !== null)

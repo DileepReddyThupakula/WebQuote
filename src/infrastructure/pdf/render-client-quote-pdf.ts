@@ -1,5 +1,8 @@
 import type { ClientQuoteDocumentV1 } from "@/features/client-summary/document";
-import { formatMoney } from "@/features/client-summary/document";
+import {
+  formatMoney,
+  formatRevisionPolicy,
+} from "@/features/client-summary/document";
 import { PLANNING_RANGE_NOTE } from "@/features/client-summary/planning-range";
 
 /**
@@ -235,7 +238,11 @@ export async function renderClientQuotePdf(
 
   heading("Revisions and additional work");
   paragraph(
-    `${document.revisions.includedRounds} ${document.revisions.includedRounds === 1 ? "round of revisions is" : "rounds of revisions are"} included. An additional round is ${money(document.revisions.extraRoundPriceMinor)}.`,
+    formatRevisionPolicy(
+      document.revisions.includedRounds,
+      document.revisions.extraRoundPriceMinor,
+      document.currency,
+    ),
   );
   if (document.changeRequests.length > 0) {
     paragraph("Additional work is quoted by written change request:", {
