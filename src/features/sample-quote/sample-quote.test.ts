@@ -1,0 +1,81 @@
+import {
+  ACTIVE_PRICING_CONFIG,
+  calculateQuote,
+  type QuoteResultV1,
+} from "@/domain/quote";
+import {
+  clientSummaryText,
+  formatHours,
+  formatMoney,
+} from "@/features/client-summary/document";
+import {
+  buildSampleQuote,
+  SAMPLE_QUOTE_INPUT,
+} from "@/features/sample-quote/sample-quote";
+
+import { auditSamples } from "../../../tests/fixtures/quotes/audit-samples";
+
+function engineResult(): QuoteResultV1 {
+  const outcome = calculateQuote(SAMPLE_QUOTE_INPUT, ACTIVE_PRICING_CONFIG);
+  if (!outcome.ok) throw new Error("invalid sample");
+  return outcome.result;
+}
+
+describe("landing-page sample quote", () => {
+  it("is audit sample 11 plus a 14-day support window", () => {
+    const audit = auditSamples.find(({ id }) => id === 11)!;
+    expect(SAMPLE_QUOTE_INPUT).toEqual({
+      ...audit.input,
+      delivery: { ...audit.input.delivery, postLaunchSupportDays: 14 },
+    });
+  });
+
+  it("shows the engine's recommended quote and milestones, not invented numbers", () => {
+    const result = engineResult();
+    const document = buildSampleQuote();
+    expect(document.price.presentation).toBe("amount");
+    expect(document.price.quoteMinor).toBe(result.pricing.recommendedMinor);
+    expect(document.milestones.map((item) => item.amountMinor)).toEqual(
+      result.payment.milestones.map((item) => item.amountMinor),
+    );
+    expect(
+      document.milestones.reduce((sum, item) => sum + item.amountMinor, 0),
+    ).toBe(result.pricing.recommendedMinor);
+    expect(document.currency).toBe("INR");
+  });
+
+  it("never exposes the floor, rate, margin or hours", () => {
+    const result = engineResult();
+    const document = buildSampleQuote();
+    const text = clientSummaryText(document);
+    const serialized = JSON.stringify(document);
+    const { pricing, effort } = result;
+
+    expect(pricing.minimumSafeMinor).toBeLessThan(pricing.recommendedMinor);
+    for (const hidden of [pricing.minimumSafeMinor, pricing.hourlyValueMinor]) {
+      const formatted = formatMoney(hidden, pricing.currency);
+      expect(text).not.toContain(formatted);
+    }
+    expect(text).not.toMatch(
+      /margin|minimum safe|contingency|hourly value|hourly rate|effort|floor|overhead/i,
+    );
+    for (const qh of [
+      effort.direct.expectedQh,
+      effort.delivery.lowQh,
+      effort.delivery.expectedQh,
+      effort.delivery.highQh,
+    ]) {
+      expect(text).not.toMatch(
+        new RegExp(`(?<![\\d.])${formatHours(qh)}\\s*(h|hrs|hours)\\b`, "i"),
+      );
+    }
+    for (const key of [
+      "minimumSafe",
+      "hourlyValue",
+      "targetMargin",
+      "ledger",
+    ]) {
+      expect(serialized).not.toContain(key);
+    }
+  });
+});

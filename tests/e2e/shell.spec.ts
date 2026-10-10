@@ -118,6 +118,35 @@ test("product shell is accessible and navigates to the quote workspace", async (
   expectNoBrowserErrors();
 });
 
+test("landing page shows a finished sample quote and fits small screens", async ({
+  page,
+}) => {
+  const expectNoBrowserErrors = failOnBrowserErrors(page);
+  const requests: string[] = [];
+  page.on("request", (request) => requests.push(request.url()));
+  await page.goto("/");
+  for (const name of [
+    "See a finished quote",
+    "How it works",
+    "Your work stays on your device",
+  ]) {
+    await expect(page.getByRole("heading", { name })).toBeVisible();
+  }
+  const sample = page.getByRole("article", { name: "Sample client quote" });
+  await expect(sample).toContainText("₹1,01,500");
+  await expect(sample).not.toContainText(/margin|minimum safe|hourly/i);
+  await expect(page.getByRole("link", { name: "Build a quote" })).toHaveCount(
+    1,
+  );
+  for (const width of [320, 390, 768, 1280]) {
+    await page.setViewportSize({ width, height: 800 });
+    await expectNoHorizontalOverflow(page);
+  }
+  const origin = new URL(page.url()).origin;
+  expect(requests.filter((url) => !url.startsWith(origin))).toEqual([]);
+  expectNoBrowserErrors();
+});
+
 test("simple landing-page quote reaches the results workspace", async ({
   page,
 }) => {
@@ -242,7 +271,7 @@ test("client planning range starts at the quoted amount and hides the floor", as
 
   const amount = page.getByRole("textbox", { name: /Final quoted amount/ });
   await amount.fill("123456");
-  await expect(preview).toContainText("₹123,456.00–");
+  await expect(preview).toContainText("₹1,23,456–");
   await expect(preview).not.toContainText(floor);
   expectNoBrowserErrors();
 });

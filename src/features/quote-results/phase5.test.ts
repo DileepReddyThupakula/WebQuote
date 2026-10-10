@@ -55,8 +55,14 @@ describe("Phase 5 result and client document", () => {
         quote.ledger.effort.reduce((sum, item) => sum + item.amountQh, 0),
       ).toBe(quote.effort.delivery.expectedQh);
       expect(
-        formatMoney(quote.pricing.minimumSafeMinor, quote.pricing.currency),
-      ).toContain(".");
+        parseMoneyText(
+          formatMoney(
+            quote.pricing.minimumSafeMinor,
+            quote.pricing.currency,
+          ).replace(/^\D+/, ""),
+          quote.pricing.currency,
+        ),
+      ).toBe(quote.pricing.minimumSafeMinor);
       expect(
         quote.effort.complexityAdditional.expectedQh,
       ).toBeGreaterThanOrEqual(0);
