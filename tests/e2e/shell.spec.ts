@@ -1,4 +1,8 @@
+import { readFile } from "node:fs/promises";
+
 import { expect, test, type Page } from "@playwright/test";
+
+import { extractPdfText } from "../helpers/pdf-text";
 
 function failOnBrowserErrors(
   page: Page,
@@ -273,6 +277,70 @@ test("client planning range starts at the quoted amount and hides the floor", as
   await amount.fill("123456");
   await expect(preview).toContainText("₹1,23,456–");
   await expect(preview).not.toContainText(floor);
+  expectNoBrowserErrors();
+});
+
+test("downloads a client PDF built in the browser without internal pricing", async ({
+  page,
+}) => {
+  const expectNoBrowserErrors = failOnBrowserErrors(page);
+  const requests: string[] = [];
+  page.on("request", (request) => requests.push(request.url()));
+  await startFreshQuote(page);
+  await completeSimpleQuote(page);
+  await page.getByRole("button", { name: "Calculate quote" }).click();
+  await expect(page).toHaveURL(/\/quote\/result$/);
+
+  const floor = (
+    await page
+      .locator("dt", { hasText: "Minimum safe price" })
+      .locator("xpath=following-sibling::dd")
+      .first()
+      .innerText()
+  ).trim();
+  const quoted = (
+    await page
+      .getByText(/^Calculated: /)
+      .first()
+      .innerText()
+  )
+    .replace("Calculated: ", "")
+    .trim();
+
+  // The PDF fonts and renderer are fetched only after export is requested.
+  expect(requests.filter((url) => url.includes("/fonts/pdf/"))).toEqual([]);
+
+  await page.getByLabel(/Your name or business name/).fill("Asha Rao Studio");
+  await page.getByLabel(/Contact line/).fill("asha@example.com");
+  const [download] = await Promise.all([
+    page.waitForEvent("download"),
+    page.getByRole("button", { name: "Download PDF" }).click(),
+  ]);
+  expect(download.suggestedFilename()).toBe("landing-page-quote.pdf");
+  const path = await download.path();
+  const pdf = extractPdfText(new Uint8Array(await readFile(path)));
+
+  expect(pdf.pageCount).toBeGreaterThanOrEqual(1);
+  expect(pdf.pages[0]).toContain("Asha Rao Studio");
+  expect(pdf.pages[0]).toContain("asha@example.com");
+  expect(pdf.text).toContain("Prepared with WebQuote");
+  expect(pdf.text).toContain("Landing page");
+  expect(pdf.text).toContain(quoted.replace(/\.00$/, ""));
+  if (floor !== quoted) expect(pdf.text).not.toContain(floor);
+  expect(pdf.text).not.toMatch(
+    /margin|minimum safe|contingency|hourly value|hourly rate|effort|floor/i,
+  );
+  await expect(
+    page.getByRole("status").filter({ hasText: "Downloaded" }),
+  ).toBeVisible();
+
+  // The name and contact line persist in this browser only.
+  await page.reload();
+  await expect(page.getByLabel(/Your name or business name/)).toHaveValue(
+    "Asha Rao Studio",
+  );
+  const origin = new URL(page.url()).origin;
+  expect(requests.filter((url) => !url.startsWith(origin))).toEqual([]);
   expectNoBrowserErrors();
 });
 

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { Button, buttonClassName } from "@/components/ui/button";
+import { PdfExportPanel } from "@/components/quote-results/pdf-export-panel";
 import { Notice } from "@/components/ui/notice";
 import type { CurrencyCode, QuoteResultV1 } from "@/domain/quote/types";
 import {
@@ -856,6 +857,7 @@ export function ResultWorkspace() {
                 </Button>
                 <span role="status">{copyStatus}</span>
               </div>
+              <PdfExportPanel document={document} />
             </div>
           </>
         )}
