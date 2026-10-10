@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 
-import { getPublicSiteUrl, siteConfig } from "@/lib/site";
+import { getIndexableSiteUrl, getPublicSiteUrl, siteConfig } from "@/lib/site";
 import "@/styles/globals.css";
 
 const publicSiteUrl = getPublicSiteUrl();
@@ -27,19 +27,9 @@ export const metadata: Metadata = {
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
   },
-  ...(publicSiteUrl
-    ? {
-        metadataBase: publicSiteUrl,
-        alternates: { canonical: "/" },
-        openGraph: {
-          type: "website" as const,
-          siteName: siteConfig.name,
-          title: `${siteConfig.name} — ${siteConfig.tagline}`,
-          description: siteConfig.description,
-          url: "/",
-        },
-      }
-    : {}),
+  ...(publicSiteUrl ? { metadataBase: publicSiteUrl } : {}),
+  // Defence in depth: robots.txt already blocks crawling outside production.
+  ...(getIndexableSiteUrl() ? {} : { robots: { index: false, follow: false } }),
 };
 
 export const viewport: Viewport = {

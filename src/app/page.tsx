@@ -1,10 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { SiteHeader } from "@/components/site-header";
 import { buttonClassName } from "@/components/ui/button";
-import { siteConfig } from "@/lib/site";
+import { publicPageMetadata } from "@/lib/seo";
+import { publicPages, siteConfig } from "@/lib/site";
 
 const workflowItems = [
   {
@@ -22,6 +24,8 @@ const workflowItems = [
       "Make revisions, payment timing, and boundaries clear before sending.",
   },
 ] as const;
+
+export const metadata: Metadata = publicPageMetadata(publicPages[0]);
 
 export default function HomePage() {
   return (

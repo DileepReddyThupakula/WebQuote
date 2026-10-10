@@ -1,19 +1,17 @@
 import type { MetadataRoute } from "next";
 
-import { getPublicSiteUrl } from "@/lib/site";
+import { getIndexableSiteUrl, publicPages } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const publicSiteUrl = getPublicSiteUrl();
+  const indexableSiteUrl = getIndexableSiteUrl();
 
-  if (!publicSiteUrl) {
+  if (!indexableSiteUrl) {
     return [];
   }
 
-  return [
-    {
-      url: new URL("/", publicSiteUrl).toString(),
-      changeFrequency: "monthly",
-      priority: 1,
-    },
-  ];
+  return publicPages.map((page) => ({
+    url: new URL(page.path, indexableSiteUrl).toString(),
+    changeFrequency: page.changeFrequency,
+    priority: page.priority,
+  }));
 }

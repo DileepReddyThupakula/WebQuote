@@ -481,3 +481,50 @@ test("unknown routes render the recoverable not-found page", async ({
   );
   expectNoBrowserErrors();
 });
+
+test.describe("search metadata (development server is a non-indexable environment)", () => {
+  test("robots.txt blocks crawling and the sitemap is empty outside production", async ({
+    request,
+  }) => {
+    const robotsResponse = await request.get("/robots.txt");
+    expect(robotsResponse.ok()).toBe(true);
+    expect(await robotsResponse.text()).toContain("Disallow: /");
+
+    const sitemapResponse = await request.get("/sitemap.xml");
+    expect(sitemapResponse.ok()).toBe(true);
+    expect(await sitemapResponse.text()).not.toContain("<loc>");
+  });
+
+  test("public pages carry titles, descriptions and canonical URLs", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await expect(page).toHaveTitle(
+      "Website Quote Builder for Freelancers | WebQuote",
+    );
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      "href",
+      /^https?:\/\/[^/]+\/?$/,
+    );
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+      "content",
+      /freelancers/,
+    );
+    await expect(page.locator('meta[property="og:title"]')).toHaveCount(1);
+
+    await page.goto("/quote");
+    await expect(page).toHaveTitle("Build a Website Quote | WebQuote");
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      "href",
+      /\/quote$/,
+    );
+  });
+
+  test("the result page is noindex", async ({ page }) => {
+    await page.goto("/quote/result");
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+      "content",
+      /noindex/,
+    );
+  });
+});

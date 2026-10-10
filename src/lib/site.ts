@@ -17,6 +17,34 @@ export const siteConfig = {
     "Build a clear project price, scope, payment plan, revision policy, and client-ready quote for your next website project.",
 } as const;
 
+/**
+ * Public, indexable pages. Add new public pages here: the sitemap and the
+ * per-page metadata both read this list. Private pages (for example
+ * /quote/result) must not be listed and must set `robots: noindex`.
+ */
+export const publicPages = [
+  {
+    path: "/",
+    title: {
+      absolute: "Website Quote Builder for Freelancers | WebQuote",
+    },
+    description:
+      "Free website quote builder for freelancers and small agencies. Turn project details into a planning range, scope, payment plan, and client-ready quote, with no signup.",
+    changeFrequency: "monthly",
+    priority: 1,
+  },
+  {
+    path: "/quote",
+    title: "Build a Website Quote",
+    description:
+      "Answer a few questions about a website project and get a planning range, scope, payment plan, and revision policy you can explain to your client.",
+    changeFrequency: "monthly",
+    priority: 0.8,
+  },
+] as const;
+
+export type PublicPage = (typeof publicPages)[number];
+
 export function resolveSiteUrl(
   rawValue: string | undefined,
   environment: string | undefined,
@@ -44,4 +72,38 @@ export function resolveSiteUrl(
 
 export function getPublicSiteUrl(): URL | null {
   return resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL, process.env.NODE_ENV);
+}
+
+/**
+ * The origin to advertise to search engines, or null when this deployment must
+ * not be crawled. Requires an explicit NEXT_PUBLIC_SITE_URL, a production
+ * build, and, on Vercel, the production environment, so preview deployments
+ * and local runs stay out of search even when the variable is set everywhere.
+ */
+export function resolveIndexableSiteUrl(
+  rawValue: string | undefined,
+  nodeEnv: string | undefined,
+  vercelEnv: string | undefined,
+): URL | null {
+  if (nodeEnv !== "production") {
+    return null;
+  }
+
+  if (vercelEnv && vercelEnv !== "production") {
+    return null;
+  }
+
+  if (!rawValue?.trim()) {
+    return null;
+  }
+
+  return resolveSiteUrl(rawValue, nodeEnv);
+}
+
+export function getIndexableSiteUrl(): URL | null {
+  return resolveIndexableSiteUrl(
+    process.env.NEXT_PUBLIC_SITE_URL,
+    process.env.NODE_ENV,
+    process.env.VERCEL_ENV,
+  );
 }
