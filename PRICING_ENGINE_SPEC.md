@@ -414,6 +414,17 @@ The recommended quote is therefore derived from the configured expected effort, 
 
 There is no hard-coded percentile in the commercial formula. The only interpolation is the named `expectedEffortPositionBp` calibration parameter used to calculate expected effort from configured low/high ranges.
 
+### 7.2.1 Client planning range
+
+The range in 7.2 is a private, freelancer-facing range: its low end is always the minimum safe price. It is never shown to a client. When the freelancer chooses to present a range to the client, it is derived from the final quoted amount (the calculated recommendation or the user's override):
+
+```text
+clientLow  = finalQuotedAmount
+clientHigh = roundUp(finalQuotedAmount × rangeHigh / recommended, commercialIncrement)
+```
+
+The client range therefore never falls below the quote, always contains it, follows custom amounts, and cannot reveal the minimum safe price unless the freelancer quotes it. The upper figure reuses the engine's own high-end spread and adds no new calibration value. Client wording states that the lower figure is the price for the listed scope and the upper figure applies only if the scope grows. A quote below the minimum safe price warns but is not blocked.
+
 ### 7.3 Urgency/rush fee
 
 | Urgency | Surcharge | Meaning |
@@ -463,6 +474,22 @@ extraRevisionHigh = max(4 h, 8% of eligibleHighHours)
 ```
 
 The suggested extra-round price range uses the configured expected-effort position, `priceAtMargin`, and commercial rounding. The client summary uses that expected/recommended value unless overridden. New functionality is a change request, not a revision.
+
+### 9.1 Included revision rounds and post-launch support effort (model v2)
+
+Pricing model `webquote-pricing-v2` (config `webquote-v2-calibration@2.0.0`) keeps every v1 effort, overhead, risk, urgency, rounding and milestone number unchanged and adds effort for two commitments the quote makes. Model v1 did not price either.
+
+```text
+roundsAboveBaseline = max(0, includedRevisionRounds - baselineRounds)   // baselineRounds = 2
+includedRevisionEffort = roundsAboveBaseline × extraRoundEffort         // the per-round effort of section 9
+postLaunchSupportEffort = includedWork.postLaunchSupport.byDays[supportDays]
+```
+
+- Rounds at or below the baseline add nothing and are not discounted, because the foundation ranges are not decomposed per round.
+- Support effort is an **uncalibrated placeholder** table: 0 days 0 h, 14 days 2–4 h, 30 days 4–8 h, 60 days 8–16 h. The config marks it `calibration: "uncalibrated-placeholder"`; replace it from real project data.
+- Both are added to planned effort after complexity, testing and project-management overhead, so those multipliers and percentages do not inflate them, and the risk contingency still applies. They are not revision-eligible effort.
+- Included revision rounds count toward the build timeline. Post-launch support is excluded from it, because it happens after delivery.
+- Each result stores the config identity and model version that produced it. Existing v1 results keep their v1 identity and are never recalculated.
 
 ## 10. Change-order pricing
 

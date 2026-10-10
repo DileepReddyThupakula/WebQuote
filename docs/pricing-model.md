@@ -154,3 +154,34 @@ business site, content-heavy CMS site, ecommerce, SaaS web application,
 integration-heavy custom project, rush project, and high-risk moderate-complexity
 project. Resolved expected ledgers live in
 `tests/fixtures/quotes/v1-ledgers.ts`.
+
+## Model v2 (2026-10-10)
+
+Model: `webquote-pricing-v2`  
+Configuration: `webquote-v2-calibration@2.0.0` (active for new quotes)
+
+v2 reuses the v1 calibration without changing any effort, overhead, risk,
+urgency, rounding or milestone number, and adds an optional `includedWork`
+group:
+
+| Parameter | Value | Status |
+|---|---|---|
+| `revisionRounds.baselineRounds` | 2 | Matches the builder default; no discount below it |
+| `postLaunchSupport.byDays` | 0 / 14 / 30 / 60 days = 0 / 2–4 / 4–8 / 8–16 h | **Uncalibrated placeholder values** |
+
+Included revision rounds above the baseline add `rounds × extraRoundEffort`;
+post-launch support adds the table value. Both sit after complexity and
+overhead and before risk contingency. Support effort is excluded from the build
+timeline; revision rounds are included in it.
+
+Results store their model and config identity. v1 results remain readable and
+are never recalculated under v2. Both configs are registered in
+`PRICING_CONFIG_REGISTRY`; `ACTIVE_PRICING_CONFIG` is v2.
+
+### Client planning range
+
+The engine's internal range starts at the minimum safe price and stays on the
+freelancer-only screen. A client-facing planning range starts at the final
+quoted amount and extends upward by the engine's own `rangeHigh / recommended`
+spread, rounded up to the currency increment. It follows custom quote amounts
+and never exposes the minimum safe price, rate, margin or hours.
