@@ -276,6 +276,12 @@ test("client planning range starts at the quoted amount and hides the floor", as
   if (floor !== calculated) await expect(preview).not.toContainText(floor);
 
   const amount = page.getByRole("textbox", { name: /Final quoted amount/ });
+  // The field shows the calculated amount with normal grouping and no ".00".
+  await expect(amount).toHaveValue(calculated.replace("₹", ""));
+  expect(calculated).not.toMatch(/\.00$/);
+  await amount.fill("123456.5");
+  await amount.blur();
+  await expect(amount).toHaveValue("1,23,456.50");
   await amount.fill("123456");
   await expect(preview).toContainText("₹1,23,456–");
   await expect(preview).not.toContainText(floor);

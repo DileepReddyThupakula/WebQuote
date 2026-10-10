@@ -11,6 +11,7 @@ import {
   clientSummaryText,
   createClientQuoteDocument,
   exclusionLines,
+  formatAmountInput,
   formatHours,
   formatMoney,
   formatRevisionPolicy,
@@ -69,9 +70,6 @@ const warningLabels: Record<string, string> = {
   "rush-capacity-confirmation": "Confirm capacity for the requested urgency.",
 };
 
-function minorText(minor: number): string {
-  return `${Math.floor(minor / 100)}.${String(minor % 100).padStart(2, "0")}`;
-}
 function percentText(bp: number): string {
   return `${Math.floor(bp / 100)}${
     bp % 100
@@ -110,9 +108,10 @@ export function ResultWorkspace() {
       const overrideLoad = loadOverrides(loaded.result);
       setReady({ result: loaded.result, overrides: overrideLoad.overrides });
       setQuoteText(
-        minorText(
+        formatAmountInput(
           overrideLoad.overrides.values.quoteAmountMinor ??
             loaded.result.pricing.recommendedMinor,
+          loaded.result.pricing.currency,
         ),
       );
       setMilestoneText(
@@ -194,7 +193,12 @@ export function ResultWorkspace() {
   function resetAll() {
     const next = emptyOverrides(result);
     setReady({ result, overrides: next });
-    setQuoteText(minorText(result.pricing.recommendedMinor));
+    setQuoteText(
+      formatAmountInput(
+        result.pricing.recommendedMinor,
+        result.pricing.currency,
+      ),
+    );
     setMilestoneText(
       result.payment.milestones.map((item) => percentText(item.percentBp)),
     );
@@ -507,12 +511,27 @@ export function ResultWorkspace() {
                   className="min-w-0 flex-1 rounded-control border border-border-strong bg-surface px-3 py-2 text-ink"
                   id="quote-amount"
                   inputMode="decimal"
+                  onBlur={() => {
+                    const value = parseMoneyText(
+                      quoteText,
+                      result.pricing.currency,
+                    );
+                    if (value !== null)
+                      setQuoteText(
+                        formatAmountInput(value, result.pricing.currency),
+                      );
+                  }}
                   onChange={(event) => editQuote(event.target.value)}
                   value={quoteText}
                 />
                 <Button
                   onClick={() => {
-                    setQuoteText(minorText(result.pricing.recommendedMinor));
+                    setQuoteText(
+                      formatAmountInput(
+                        result.pricing.recommendedMinor,
+                        result.pricing.currency,
+                      ),
+                    );
                     setQuoteError("");
                     update("quoteAmountMinor", undefined);
                   }}
@@ -968,7 +987,9 @@ function MoneyOverride({
   onRestore: () => void;
 }) {
   const id = `override-${label.toLowerCase().replace(/\s+/g, "-")}`;
-  const [text, setText] = useState(minorText(value ?? calculated));
+  const [text, setText] = useState(
+    formatAmountInput(value ?? calculated, currency),
+  );
   const [error, setError] = useState("");
   return (
     <div className="grid gap-2">
@@ -993,6 +1014,10 @@ function MoneyOverride({
           setError("");
           onChange(parsed === calculated ? undefined : parsed);
         }}
+        onBlur={() => {
+          const parsed = parseMoneyText(text, currency);
+          if (parsed !== null) setText(formatAmountInput(parsed, currency));
+        }}
         value={text}
       />
       {error ? (
@@ -1003,7 +1028,7 @@ function MoneyOverride({
       <Button
         className="w-fit"
         onClick={() => {
-          setText(minorText(calculated));
+          setText(formatAmountInput(calculated, currency));
           setError("");
           onRestore();
         }}

@@ -95,6 +95,52 @@ describe("ResultWorkspace", () => {
     },
   );
 
+  it("shows amount fields with the currency's grouping and no trailing .00", async () => {
+    const user = userEvent.setup();
+    const quote = quotes[0]!; // INR
+    saveLatestResult(quote);
+    render(<ResultWorkspace />);
+    const amount = (await screen.findByRole("textbox", {
+      name: /Final quoted amount/,
+    })) as HTMLInputElement;
+    expect(quote.pricing.currency).toBe("INR");
+    expect(amount.value).toBe(
+      formatMoney(quote.pricing.recommendedMinor, "INR").replace("₹", ""),
+    );
+    expect(amount.value).not.toMatch(/\.00$/);
+
+    // Typed decimals and plain digits are accepted, then tidied on blur.
+    await user.clear(amount);
+    await user.type(amount, "5400050");
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    await user.clear(amount);
+    await user.type(amount, "123456.5");
+    await user.tab();
+    expect(amount.value).toBe("1,23,456.50");
+    expect(screen.getByRole("article")).toHaveTextContent("₹1,23,456.50");
+
+    await user.clear(amount);
+    await user.type(amount, "54000");
+    await user.tab();
+    expect(amount.value).toBe("54,000");
+
+    // Invalid text is flagged and left as typed.
+    await user.clear(amount);
+    await user.type(amount, "12.345");
+    await user.tab();
+    expect(
+      screen.getByText(/non-negative amount with up to two decimal places/),
+    ).toBeInTheDocument();
+    expect(amount.value).toBe("12.345");
+
+    await user.click(
+      within(amount.parentElement!).getByRole("button", { name: "Restore" }),
+    );
+    expect(amount.value).toBe(
+      formatMoney(quote.pricing.recommendedMinor, "INR").replace("₹", ""),
+    );
+  });
+
   it("offers mailto feedback links and no feedback form", async () => {
     saveLatestResult(quotes[1]!);
     render(<ResultWorkspace />);

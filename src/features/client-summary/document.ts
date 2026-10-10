@@ -47,6 +47,26 @@ export function formatMoney(minor: number, currency: CurrencyCode): string {
   return `${currencySymbols[currency]}${whole}.${fraction}`;
 }
 
+/**
+ * An amount for an editable field: the currency's normal digit grouping, no
+ * symbol, and no trailing ".00" for whole numbers (54,000 or 1,23,456).
+ * Fractions appear only when non-zero (54,000.50). `parseMoneyText` reads this
+ * back, so a formatted value round-trips exactly.
+ */
+export function formatAmountInput(
+  minor: number,
+  currency: CurrencyCode,
+): string {
+  const scale = 10 ** exponent[currency];
+  const wholeValue = Math.floor(minor / scale);
+  const fraction = String(minor % scale).padStart(exponent[currency], "0");
+  const whole =
+    currency === "INR"
+      ? groupIndian(String(wholeValue))
+      : wholeValue.toLocaleString("en-US");
+  return /^0*$/.test(fraction) ? whole : `${whole}.${fraction}`;
+}
+
 export function parseMoneyText(
   value: string,
   currency: CurrencyCode,
